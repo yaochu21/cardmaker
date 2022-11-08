@@ -1,0 +1,22 @@
+.card-list_container {
+    width: 50vw;
+    height: 50vh;
+    margin-left: 30rem;
+    margin-right: 30rem;
+    margin-top: 1rem;
+}
+
+.card-list {
+    grid-auto-flow: column;
+    grid-auto-flow: row;
+    display: grid;
+    justify-items: center;
+    row-gap: 2rem;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.member {
+    margin: 0;
+    width: 8.5rem;
+    height: 10.5rem;
+}
