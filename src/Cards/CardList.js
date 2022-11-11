@@ -11,23 +11,23 @@ const CardList = (props) => {
     const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
 
     const cardSelectHander = (card, shift) => {
-        console.log("(de)selecting card: " + card.card_id);
+        //console.log("(de)selecting card: " + card.card_id);
         setSelectedCards((prevState) => {
             var index = prevState.indexOf(card);
-            console.log("index: " + index);
+            //console.log("index: " + index);
             if (index >= 0 && shift) {
-                console.log("shift deselected card");
+                //console.log("shift deselected card");
                 var newSelected = prevState.filter(
                     (e) => e.card_id != card.card_id
                 );
-                console.log(newSelected.map((e) => e.card_id));
+                //console.log(newSelected.map((e) => e.card_id));
                 return newSelected ? newSelected : [];
             } else if (index < 0 && shift) {
-                console.log("shift select card");
+                //console.log("shift select card");
                 console.log([...prevState, card].map((e) => e.card_id));
                 return [...prevState, card];
             } else {
-                console.log("select card");
+                //console.log("select card");
                 console.log([card.card_id]);
                 return [card];
             }
@@ -54,25 +54,33 @@ const CardList = (props) => {
         setIsMenuOpen(false);
     };
 
+    const handleOverlayClick = (event) => {
+        console.log("overlay clicked");
+        setSelectedCards([]);
+        setIsMenuOpen(false);
+    }
+
     return (
-        <div className="card-list_canvas">
-            <ul className="card-list">
-                <NewCard />
-                {props.visibleCards.map((card) => (
-                    <div className="member" key={Math.random().toString()}>
-                        <CardDisplay
-                            selected={selectedCards.includes(card)}
-                            card={card}
-                            handleContextMenu={contextMenuHandler}
-                            handleCardSelect={cardSelectHander}
-                        />
-                    </div>
-                ))}
-            </ul>
-            {isMenuOpen ? (
-                <ContextMenu x={menuCoord.x} y={menuCoord.y} />
-            ) : null}
-        </div>
+        <Overlay onClick={handleOverlayClick}>
+            <div className="card-list_canvas">
+                <ul className="card-list">
+                    <NewCard />
+                    {props.visibleCards.map((card) => (
+                        <div className="member" key={Math.random().toString()}>
+                            <CardDisplay
+                                isSelected={selectedCards.includes(card)}
+                                card={card}
+                                handleContextMenu={contextMenuHandler}
+                                handleCardSelect={cardSelectHander}
+                            />
+                        </div>
+                    ))}
+                </ul>
+                {isMenuOpen ? (
+                    <ContextMenu x={menuCoord.x} y={menuCoord.y} />
+                ) : null}
+            </div>
+        </Overlay>
     );
 };
 
@@ -87,4 +95,3 @@ const Overlay = styled.div`
 `;
 
 export default CardList;
-
