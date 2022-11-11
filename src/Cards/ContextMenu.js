@@ -6,23 +6,8 @@ const ContextMenu = (props) => {
         console.log(event);
     };
 
-    const contextMenuCloseHandler = (event) => {
-        console.log(event);
-        props.handleContextMenu(event, false);
-    };
-
-    const contextMenuReOpenHandler = (event) => {
-        console.log(event);
-        props.handleContextMenu(event, false);
-        props.handleContextMenu(event, true);
-    };
-
     return (
         <div>
-            <Overlay
-                onClick={contextMenuCloseHandler}
-                onContextMenu={contextMenuReOpenHandler}
-            />
             <ContextMenuContainer style={{ top: props.y, left: props.x }}>
                 <ContextMenuButton onClick={contextMenuClickHandler}>
                     <span>Edit</span>
@@ -46,15 +31,6 @@ const ContextMenuButton = styled.button`
     background-color: white;
     border-style: solid;
     border-width: 1px;
-`;
-
-const Overlay = styled.div`
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.1);
 `;
 
 export default ContextMenu;

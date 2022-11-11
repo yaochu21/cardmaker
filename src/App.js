@@ -1,5 +1,7 @@
 import CardList from "./Cards/CardList";
 import Toolbar from "./Toolbar/Toolbar";
+import styled from "styled-components";
+
 
 function App() {
 
@@ -11,12 +13,27 @@ function App() {
   }
   console.log(cards);
 
+  const handleOverlayClick = (event) => {
+    console.log("overlay clicked");
+  }
+
   return (
     <div>
-      <Toolbar />
-      <CardList visibleCards={cards}/>
+      <Overlay onClick={handleOverlayClick}>
+        <CardList visibleCards={cards}/>
+      </Overlay>
     </div>
   );
 }
+
+const Overlay = styled.div`
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+`;
 
 export default App;

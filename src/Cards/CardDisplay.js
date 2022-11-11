@@ -21,7 +21,7 @@ const CardDisplay = (props) => {
 
     return (
         <CardContainer
-            //selected={props.isSelected}
+            selected={props.isSelected}
             onClick={cardClickHandler}
             onDoubleClick={cardDoubleClickHandler}
             onContextMenu={openContextMenu}
