@@ -1,16 +1,23 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const ContextMenu = (props) => {
     const contextMenuClickHandler = (event) => {
         console.log(event);
+        // bring up modal
     };
 
     return (
         <div>
             <ContextMenuContainer style={{ top: props.y, left: props.x }}>
-                <ContextMenuButton onClick={contextMenuClickHandler}>
+                <TopContextMenuButton onClick={contextMenuClickHandler}>
                     <span>Edit</span>
+                </TopContextMenuButton>
+                <ContextMenuButton onClick={contextMenuClickHandler}>
+                    <span>Delete</span>
+                </ContextMenuButton>
+                <ContextMenuButton onClick={contextMenuClickHandler}>
+                    <span>Move</span>
                 </ContextMenuButton>
             </ContextMenuContainer>
         </div>
@@ -19,6 +26,8 @@ const ContextMenu = (props) => {
 
 const ContextMenuContainer = styled.div`
     position: absolute;
+    display: flex;
+    flex-direction: column;
 `;
 
 const ContextMenuButton = styled.button`
@@ -31,6 +40,11 @@ const ContextMenuButton = styled.button`
     background-color: white;
     border-style: solid;
     border-width: 1px;
+    border-top: 0px;
 `;
+
+const TopContextMenuButton = styled(ContextMenuButton)`
+    border-top: 1px;
+`
 
 export default ContextMenu;

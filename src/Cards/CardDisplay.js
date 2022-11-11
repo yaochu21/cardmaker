@@ -45,11 +45,22 @@ const CardContainer = styled.div(
         border-style: solid;
         border-width: 0.1rem;
         box-shadow: 4px 4px 8px rgba(183, 183, 183, 0.25);
-
         ${props.isSelected &&
         css`
-            border-color: cyan;
+            outline-style: solid;
+            outline-color: #00bfbf;
+            outline-width: 0.1rem;
+            box-shadow: 0 0 10px #9ecaed;
         `}
+
+        /* ${props.isSelected &&
+        css`
+            &::after {
+                border-color: red;
+                border-style: solid;
+                content: "";
+            }
+        `} */
     `
 );
 
