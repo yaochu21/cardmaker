@@ -23,18 +23,24 @@ const CardEditModal = (props) => {
     return (
         <React.Fragment>
             {ReactDOM.createPortal(
-                <ModalContainer x={modalPosition.x} y={modalPosition.y}>
-                    <ModalHeader onDrag={modalDragHandler}>
-                        <ModalButton
-                            style={{ marginRight: "auto", marginLeft: "3px" }}
-                            onClick={modalFile}
-                        >
-                            File
-                        </ModalButton>
-                        <ModalButton onClick={closeModal}>X</ModalButton>
-                    </ModalHeader>
-                    <ModalBody />
-                </ModalContainer>,document.getElementById("modal-root")
+                <Draggable>
+                    <ModalContainer x={modalPosition.x} y={modalPosition.y}>
+                        <ModalHeader onDrag={modalDragHandler}>
+                            <ModalButton
+                                style={{
+                                    marginRight: "auto",
+                                    marginLeft: "3px",
+                                }}
+                                onClick={modalFile}
+                            >
+                                File
+                            </ModalButton>
+                            <ModalButton onClick={closeModal}>X</ModalButton>
+                        </ModalHeader>
+                        <ModalBody />
+                    </ModalContainer>
+                </Draggable>,
+                document.getElementById("modal-root")
             )}
         </React.Fragment>
     );
