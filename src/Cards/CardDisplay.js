@@ -18,11 +18,14 @@ const CardDisplay = (props) => {
 
     const cardDoubleClickHandler = (event) => {
         console.log("card double clicked");
+        event.stopPropagation();
+        props.openCardModalHandler(props.card);
     };
 
     const openContextMenu = (event) => {
         event.preventDefault();
         props.handleContextMenu(event, true);
+        props.handleCardSelect(props.card, event.shiftKey, true);
     };
 
     return (

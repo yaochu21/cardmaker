@@ -1,26 +1,35 @@
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
+import CardEditModal from "./CardEditModal";
 
 const ContextMenu = (props) => {
-    const contextMenuClickHandler = (event) => {
-        console.log(event);
-        // bring up modal
+    const contextMenuEditHandler = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        props.openCardModal();
     };
 
+    const contextMenuDeleteHandler = (event) => {};
+
+    const contextMenuMoveHandler = (event) => {};
+
     return (
-        <div>
-            <ContextMenuContainer style={{ top: props.y, left: props.x }}>
-                <TopContextMenuButton onClick={contextMenuClickHandler}>
-                    <span>Edit</span>
-                </TopContextMenuButton>
-                <ContextMenuButton onClick={contextMenuClickHandler}>
-                    <span>Delete</span>
-                </ContextMenuButton>
-                <ContextMenuButton onClick={contextMenuClickHandler}>
-                    <span>Move</span>
-                </ContextMenuButton>
-            </ContextMenuContainer>
-        </div>
+        <React.Fragment>
+            {ReactDOM.createPortal(
+                <ContextMenuContainer style={{ top: props.y, left: props.x }}>
+                    <ContextMenuButton onClick={contextMenuEditHandler}>
+                        Edit
+                    </ContextMenuButton>
+                    <MidContextMenuButton onClick={contextMenuDeleteHandler}>
+                        Delete
+                    </MidContextMenuButton>
+                    <ContextMenuButton onClick={contextMenuMoveHandler}>
+                        Move
+                    </ContextMenuButton>
+                </ContextMenuContainer>
+            ,document.getElementById("context-menu-root"))}
+        </React.Fragment>
     );
 };
 
@@ -40,11 +49,11 @@ const ContextMenuButton = styled.button`
     background-color: white;
     border-style: solid;
     border-width: 1px;
-    border-top: 0px;
 `;
 
-const TopContextMenuButton = styled(ContextMenuButton)`
-    border-top: 1px;
-`
+const MidContextMenuButton = styled(ContextMenuButton)`
+    border-top: none;
+    border-bottom: none;
+`;
 
 export default ContextMenu;

@@ -1,16 +1,19 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import NewCard from "./NewCard";
 import CardDisplay from "./CardDisplay";
 import ContextMenu from "./ContextMenu";
+import CardEditModal from "./CardEditModal";
 import "./CardList.css";
-import styled from "styled-components";
 
 const CardList = (props) => {
     const [selectedCards, setSelectedCards] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
+    const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+    const [editingCard, setEditingCard] = useState(null);
 
-    const cardSelectHander = (card, shift) => {
+    const cardSelectHander = (card, shift, hack=false) => {
         setSelectedCards((prevState) => {
             var index = prevState.indexOf(card);
             if (index >= 0 && shift) {
@@ -18,7 +21,7 @@ const CardList = (props) => {
                     (e) => e.card_id !== card.card_id
                 );
                 return newSelected ? newSelected : [];
-            } else if (index < 0 && shift) {
+            } else if (index < 0 && shift || hack) {
                 console.log([...prevState, card].map((e) => e.card_id));
                 return [...prevState, card];
             } else {
@@ -48,14 +51,30 @@ const CardList = (props) => {
         setIsMenuOpen(false);
     };
 
-    const handleOverlayClick = (event) => {
+    const overlayClickHandler = (event) => {
         console.log("overlay clicked");
         setSelectedCards([]);
         setIsMenuOpen(false);
-    }
+    };
+
+    const openCardModalHandler = () => {
+        console.log("In openCardModalHandler");
+        if (selectedCards.length > 0) {
+            setEditingCard(selectedCards[selectedCards.length - 1]);
+            setIsCardModalOpen(true);
+        }
+        else {
+            console.log("no card selected");
+        }
+    };
+
+    const closeCardModalHandler = (event) => {
+        setIsCardModalOpen(false);
+        setEditingCard(null);
+    };
 
     return (
-        <Overlay onClick={handleOverlayClick}>
+        <Overlay onClick={overlayClickHandler}>
             <div className="card-list_canvas">
                 <ul className="card-list">
                     <NewCard />
@@ -66,14 +85,16 @@ const CardList = (props) => {
                                 card={card}
                                 handleContextMenu={contextMenuHandler}
                                 handleCardSelect={cardSelectHander}
+                                openCardModal={openCardModalHandler}
                             />
                         </div>
                     ))}
                 </ul>
                 {isMenuOpen ? (
-                    <ContextMenu x={menuCoord.x} y={menuCoord.y} />
+                    <ContextMenu x={menuCoord.x} y={menuCoord.y} openCardModal={openCardModalHandler} closeCardModal={closeCardModalHandler}/>
                 ) : null}
             </div>
+            {isCardModalOpen ? <CardEditModal card={editingCard} closeCardModal={closeCardModalHandler}/> : null}
         </Overlay>
     );
 };
