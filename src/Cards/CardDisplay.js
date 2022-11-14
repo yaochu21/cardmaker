@@ -3,23 +3,35 @@ import "./CardDisplay.css";
 import styled, { css } from "styled-components";
 
 const CardDisplay = (props) => {
-    console.log(
+    /*console.log(
         "card display: id:" +
             props.card.card_id +
             "; selected: " +
             props.isSelected
-    );
+    );*/
+
+    let timer = 0;
+    let prevent = false;
+    const delay = 300;
 
     const cardClickHandler = (event) => {
-        console.log("card clicked");
         event.stopPropagation();
-        props.handleCardSelect(props.card, event.shiftKey);
+        let me = this;
+        timer = setTimeout(function () {
+            if (!prevent) {
+                console.log("card clicked");
+                props.handleCardSelect(props.card, event.shiftKey);
+            }
+            prevent = false;
+        }, delay);
     };
 
     const cardDoubleClickHandler = (event) => {
-        console.log("card double clicked");
         event.stopPropagation();
-        props.openCardModalHandler(props.card);
+        clearTimeout(timer);
+        prevent = true;
+        console.log("card double clicked");
+        props.openCardModal(props.card);
     };
 
     const openContextMenu = (event) => {
@@ -54,9 +66,7 @@ const CardContainer = styled.div(
             outline-color: #00bfbf;
             outline-width: 0.1rem;
             box-shadow: 0 0 10px #9ecaed;
-        `}
-
-        /* ${props.isSelected &&
+        `}/* ${props.isSelected &&
         css`
             &::after {
                 border-color: red;

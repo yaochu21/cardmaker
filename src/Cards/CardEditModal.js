@@ -58,6 +58,8 @@ const ModalContainer = styled.div(
         width: 18rem;
         height: 30rem;
         background-color: #e6e6e6;
+        margin-left: 7rem;
+        margin-top: 5rem;
     `
 );
 
