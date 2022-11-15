@@ -1,20 +1,16 @@
-.card-list_canvas {
+.card-list {
     width: 50vw;
-    height: 100vh;
     margin-left: 30rem;
     margin-right: 30rem;
     margin-top: 1rem;
-    border-style: dashed;
-}
-
-.card-list {
+    margin-bottom: 1rem;
     grid-auto-flow: column;
     grid-auto-flow: row;
     display: grid;
-    justify-items: center;
     row-gap: 2rem;
     grid-template-columns: repeat(4, 1fr);
     border-style: dashed;
+    overflow: clip;
 }
 
 .member {

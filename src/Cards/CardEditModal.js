@@ -24,7 +24,7 @@ const CardEditModal = (props) => {
         <React.Fragment>
             {ReactDOM.createPortal(
                 <Draggable>
-                    <ModalContainer x={modalPosition.x} y={modalPosition.y}>
+                    <ModalContainer>
                         <ModalHeader onDrag={modalDragHandler}>
                             <ModalButton
                                 style={{
@@ -49,8 +49,6 @@ const CardEditModal = (props) => {
 const ModalContainer = styled.div(
     (props) => css`
         position: absolute;
-        top: ${props.y};
-        left: ${props.x};
         display: flex;
         flex-direction: column;
         border: 2px solid black;

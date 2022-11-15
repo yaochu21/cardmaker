@@ -13,7 +13,7 @@ const CardList = (props) => {
     const [isCardModalOpen, setIsCardModalOpen] = useState(false);
     const [editingCard, setEditingCard] = useState(null);
 
-    const cardSelectHander = (card, shift, hack=false) => {
+    const cardSelectHander = (card, shift, hack = false) => {
         setSelectedCards((prevState) => {
             var index = prevState.indexOf(card);
             if (index >= 0 && shift) {
@@ -21,7 +21,7 @@ const CardList = (props) => {
                     (e) => e.card_id !== card.card_id
                 );
                 return newSelected ? newSelected : [];
-            } else if (index < 0 && shift || hack) {
+            } else if ((index < 0 && shift) || hack) {
                 console.log([...prevState, card].map((e) => e.card_id));
                 return [...prevState, card];
             } else {
@@ -62,8 +62,7 @@ const CardList = (props) => {
         if (selectedCards.length > 0) {
             setEditingCard(selectedCards[selectedCards.length - 1]);
             setIsCardModalOpen(true);
-        }
-        else {
+        } else {
             console.log("no card selected");
         }
     };
@@ -75,35 +74,44 @@ const CardList = (props) => {
 
     return (
         <Overlay onClick={overlayClickHandler}>
-            <div className="card-list_canvas">
-                <ul className="card-list">
-                    <NewCard />
-                    {props.visibleCards.map((card) => (
-                        <div className="member" key={Math.random().toString()}>
-                            <CardDisplay
-                                isSelected={selectedCards.includes(card)}
-                                card={card}
-                                handleContextMenu={contextMenuHandler}
-                                handleCardSelect={cardSelectHander}
-                                openCardModal={openCardModalHandler}
-                            />
-                        </div>
-                    ))}
-                </ul>
-                {isMenuOpen ? (
-                    <ContextMenu x={menuCoord.x} y={menuCoord.y} openCardModal={openCardModalHandler} closeCardModal={closeCardModalHandler}/>
-                ) : null}
-            </div>
-            {isCardModalOpen ? <CardEditModal card={editingCard} closeCardModal={closeCardModalHandler}/> : null}
+            <ul className="card-list">
+                <NewCard />
+                {props.visibleCards.map((card) => (
+                    <div className="member" key={Math.random().toString()}>
+                        <CardDisplay
+                            isSelected={selectedCards.includes(card)}
+                            card={card}
+                            handleContextMenu={contextMenuHandler}
+                            handleCardSelect={cardSelectHander}
+                            openCardModal={openCardModalHandler}
+                        />
+                    </div>
+                ))}
+            </ul>
+            {isMenuOpen ? (
+                <ContextMenu
+                    x={menuCoord.x}
+                    y={menuCoord.y}
+                    openCardModal={openCardModalHandler}
+                    closeCardModal={closeCardModalHandler}
+                />
+            ) : null}
+            {isCardModalOpen ? (
+                <CardEditModal
+                    card={editingCard}
+                    closeCardModal={closeCardModalHandler}
+                />
+            ) : null}
         </Overlay>
     );
 };
 
 const Overlay = styled.div`
     z-index: -1;
-    height: 100%;
-    width: 100%;
-    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    overflow-y: scroll;
     top: 0;
     left: 0;
     background-color: rgba(255, 255, 255, 0.5);

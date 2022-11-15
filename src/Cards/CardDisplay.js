@@ -12,7 +12,7 @@ const CardDisplay = (props) => {
 
     let timer = 0;
     let prevent = false;
-    const delay = 300;
+    const delay = 50;
 
     const cardClickHandler = (event) => {
         event.stopPropagation();
@@ -59,6 +59,7 @@ const CardContainer = styled.div(
         background: rgb(222, 222, 222);
         border-style: solid;
         border-width: 0.1rem;
+        border-radius: 2px;
         box-shadow: 4px 4px 8px rgba(183, 183, 183, 0.25);
         ${props.isSelected &&
         css`
@@ -66,7 +67,8 @@ const CardContainer = styled.div(
             outline-color: #00bfbf;
             outline-width: 0.1rem;
             box-shadow: 0 0 10px #9ecaed;
-        `}/* ${props.isSelected &&
+        `}
+        /* ${props.isSelected &&
         css`
             &::after {
                 border-color: red;
