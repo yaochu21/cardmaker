@@ -1,6 +1,6 @@
 .card-list {
     width: 50vw;
-    margin-left: 30rem;
+    margin-left: 35rem;
     margin-right: 30rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -9,8 +9,8 @@
     display: grid;
     row-gap: 2rem;
     grid-template-columns: repeat(4, 1fr);
-    border-style: dashed;
     overflow: clip;
+    /* border-style: dashed; */
 }
 
 .member {
