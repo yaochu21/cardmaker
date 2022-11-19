@@ -1,43 +1,124 @@
-import { toBePartiallyChecked } from "@testing-library/jest-dom/dist/matchers";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
 import Draggable, { DraggableCore } from "react-draggable";
+import {
+    CardFieldName,
+    CardFieldThumbnail,
+    CardFieldDescription,
+} from "./CardDisplayStyles";
+import {
+    ModalContainer,
+    ModalHeader,
+    ModalButton,
+    ModalBody,
+    ModalInput,
+} from "./CardEditModalStyles";
+import UploadAndDisplayImage from "./ImageUpload";
 
 const CardEditModal = (props) => {
-    const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
-    const [isDragging, setIsDragging] = useState(false);
+    const [dragDisabled, setDragDisabled] = useState(false);
+    const [card, setCard] = useState(props.card);
+
+    const nameInputRef = useRef();
+    const desInputRef = useRef();
+
+    const disableDrag = (event) => {
+        setDragDisabled(true);
+    };
+
+    const enableDrag = (event) => {
+        setDragDisabled(false);
+    };
+
+    const nameChangeHandler = (event) => {
+        setCard((prevState) => {
+            return { ...prevState, name: event.target.value };
+        });
+    };
+
+    const descriptionChangeHandler = (event) => {
+        setCard((prevState) => {
+            return { ...prevState, description: event.target.value };
+        });
+    };
+
+    const saveHandler = (event) => {
+        props.card.name = card.name;
+        props.card.description = card.description;
+    };
+
+    const saveFileHandler = (event) => {
+        console.log("save to file");
+        var dataStr =
+            "data:text/json;charset=utf-8," +
+            encodeURIComponent(JSON.stringify(card));
+        var downloadAnchorNode = document.createElement("a");
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", `${card.name}.json`);
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    };
 
     const closeModal = (event) => {
         props.closeCardModal();
     };
 
-    const modalFile = (event) => {
-        console.log("File");
-    };
-
-    const modalDragHandler = (event) => {
-        console.log("dragging");
-    };
-
     return (
         <React.Fragment>
             {ReactDOM.createPortal(
-                <Draggable>
+                <Draggable disabled={dragDisabled}>
                     <ModalContainer>
-                        <ModalHeader onDrag={modalDragHandler}>
+                        <ModalHeader>
+                            <ModalButton
+                                style={{
+                                    marginLeft: "0.1rem",
+                                }}
+                                onClick={saveHandler}
+                            >
+                                Save
+                            </ModalButton>
                             <ModalButton
                                 style={{
                                     marginRight: "auto",
-                                    marginLeft: "3px",
+                                    marginLeft: "0.1rem",
                                 }}
-                                onClick={modalFile}
+                                onClick={saveFileHandler}
                             >
-                                File
+                                Download
                             </ModalButton>
                             <ModalButton onClick={closeModal}>X</ModalButton>
                         </ModalHeader>
-                        <ModalBody />
+                        <ModalBody>
+                            <CardFieldName>
+                                <ModalInput
+                                    style={{ fontSize: "1.2rem" }}
+                                    value={card.name}
+                                    autoComplete="off"
+                                    autoCapitalize="off"
+                                    spellCheck={false}
+                                    onChange={nameChangeHandler}
+                                    onFocus={disableDrag}
+                                    onBlur={enableDrag}
+                                    ref={nameInputRef}
+                                ></ModalInput>
+                            </CardFieldName>
+                            <CardFieldThumbnail><UploadAndDisplayImage /></CardFieldThumbnail>
+                            <CardFieldDescription>
+                                <ModalInput
+                                    style={{ fontSize: "1.2rem" }}
+                                    value={card.description}
+                                    autoComplete="off"
+                                    autoCapitalize="off"
+                                    spellCheck={false}
+                                    onChange={descriptionChangeHandler}
+                                    onFocus={disableDrag}
+                                    onBlur={enableDrag}
+                                    ref={desInputRef}
+                                ></ModalInput>
+                            </CardFieldDescription>
+                        </ModalBody>
                     </ModalContainer>
                 </Draggable>,
                 document.getElementById("modal-root")
@@ -45,49 +126,5 @@ const CardEditModal = (props) => {
         </React.Fragment>
     );
 };
-
-const ModalContainer = styled.div(
-    (props) => css`
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        border: 2px solid black;
-        border-radius: 5px;
-        width: 18rem;
-        height: 30rem;
-        background-color: #e6e6e6;
-        margin-left: 7rem;
-        margin-top: 5rem;
-    `
-);
-
-// This doesn't have to be a separate component if performance is on the line
-const ModalHeader = styled.div(
-    (props) => css`
-        width: 100%;
-        height: 5%;
-        border-bottom: 2px solid black;
-        display: flex;
-    `
-);
-
-const ModalBody = styled.div(
-    (props) => css`
-        width: 100%;
-        height: 95%;
-    `
-);
-
-const ModalButton = styled.button(
-    (props) => css`
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 7%;
-        border: none;
-        background-color: inherit;
-    `
-);
 
 export default CardEditModal;

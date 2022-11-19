@@ -7,11 +7,36 @@ import CardEditModal from "./CardEditModal";
 import "./CardList.css";
 
 const CardList = (props) => {
+
+    /*** Sample Initialization ***/
+    var cards = Array(20).fill({
+        card_id: 1,
+        name: "Strike",
+        description: "Deal 5 damage",
+        tags: ["basic"],
+        fields: { cost: 5 },
+        image: null,
+    });
+
+    var i = 0;
+    for (i = 0; i < 20; i++) {
+        cards[i] = { ...cards[i], card_id: i };
+    }
+    //console.log(cards);
+
+    /*** State Initialization ***/
+    const [deck,setDeck] = useState(cards);
     const [selectedCards, setSelectedCards] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
     const [isCardModalOpen, setIsCardModalOpen] = useState(false);
     const [editingCard, setEditingCard] = useState(null);
+
+    /*** Card Handlers ***/
+
+    const deckUpdateHandler = () => {
+
+    }
 
     const cardSelectHander = (card, shift, hack = false) => {
         setSelectedCards((prevState) => {
@@ -30,6 +55,8 @@ const CardList = (props) => {
             }
         });
     };
+
+    /*** ContextMenu Handlers ***/
 
     const contextMenuHandler = (event, open) => {
         event.preventDefault();
@@ -57,6 +84,8 @@ const CardList = (props) => {
         setIsMenuOpen(false);
     };
 
+    /*** Modal Handlers ***/
+
     const openCardModalHandler = () => {
         console.log("In openCardModalHandler");
         if (selectedCards.length > 0) {
@@ -76,7 +105,7 @@ const CardList = (props) => {
         <Overlay onClick={overlayClickHandler}>
             <ul className="card-list">
                 <NewCard />
-                {props.visibleCards.map((card) => (
+                {deck.map((card) => (
                     <div className="member" key={Math.random().toString()}>
                         <CardDisplay
                             isSelected={selectedCards.includes(card)}

@@ -40,6 +40,7 @@ const ContextMenuContainer = styled.div`
 `;
 
 const ContextMenuButton = styled.button`
+    font-family: "Open-Sans";
     font-size: 50%;
     display: flex;
     align-items: center;
