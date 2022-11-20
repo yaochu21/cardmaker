@@ -51,9 +51,12 @@ const CardDisplay = (props) => {
             onClick={cardClickHandler}
             onDoubleClick={cardDoubleClickHandler}
             onContextMenu={openContextMenu}
+            color={props.card.color}
         >
             <CardFieldName>{props.card.name}</CardFieldName>
-            <CardFieldThumbnail></CardFieldThumbnail>
+            <CardFieldThumbnail>
+                <img src={props.card.image} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top"}}></img>  
+            </CardFieldThumbnail>
             <CardFieldDescription>
                 {props.card.description}
             </CardFieldDescription>

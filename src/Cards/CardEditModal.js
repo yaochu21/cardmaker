@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
-import styled, { css } from "styled-components";
 import Draggable, { DraggableCore } from "react-draggable";
+import { GithubPicker } from "react-color";
 import {
     CardFieldName,
     CardFieldThumbnail,
@@ -13,15 +13,23 @@ import {
     ModalButton,
     ModalBody,
     ModalInput,
+    ModalImage,
 } from "./CardEditModalStyles";
-import UploadAndDisplayImage from "./ImageUpload";
 
 const CardEditModal = (props) => {
     const [dragDisabled, setDragDisabled] = useState(false);
     const [card, setCard] = useState(props.card);
+    const [imageURL, setImageURL] = useState(null);
 
-    const nameInputRef = useRef();
-    const desInputRef = useRef();
+    /*** Check editing card ***/
+    useEffect(() => {
+        console.log("CardEditModal use effect");
+        if (props.card.card_id != card.card_id) {
+            setCard(props.card);
+        }
+    })
+
+    /*** Drag Control ***/
 
     const disableDrag = (event) => {
         setDragDisabled(true);
@@ -30,6 +38,8 @@ const CardEditModal = (props) => {
     const enableDrag = (event) => {
         setDragDisabled(false);
     };
+
+    /*** Input Control ***/
 
     const nameChangeHandler = (event) => {
         setCard((prevState) => {
@@ -43,9 +53,56 @@ const CardEditModal = (props) => {
         });
     };
 
+    /*** Color Control ***/
+
+    const colorChangeCompleteHandler = (col) => {
+        var rgba = col.rgb;
+        console.log(rgba);
+        setCard((prevState) => {
+            return { ...prevState, color: rgba };
+        });
+    };
+
+    const palette = [
+        "#EB9694",
+        "#FAD0C3",
+        "#FEF3BD",
+        "#C1E1C5",
+        "#BEDADC",
+        "#C4DEF6",
+        "#BED3F3",
+        "#D4C4FB",
+        "#E9E9E9"
+    ];
+
+    const paletteWidth = "237px"
+
+    /*** Image Control ***/
+
+    const imageChangeHandler = (event) => {
+        var file = event.target.files[0];
+        console.log(file);
+        var url = URL.createObjectURL(file);
+        setImageURL(url);
+        setCard((prevState) => {
+            return { ...prevState, image: url };
+        });
+    };
+
+    const imageClearHandler = (event) => {
+        setImageURL(null);
+        setCard((prevState) => {
+            return { ...prevState, image: null };
+        });
+    };
+
+    /*** Saving Control ***/
+
     const saveHandler = (event) => {
         props.card.name = card.name;
         props.card.description = card.description;
+        props.card.image = card.url;
+        props.card.color = card.color;
     };
 
     const saveFileHandler = (event) => {
@@ -61,6 +118,8 @@ const CardEditModal = (props) => {
         downloadAnchorNode.remove();
     };
 
+    /*** Closing Control ***/
+
     const closeModal = (event) => {
         props.closeCardModal();
     };
@@ -69,7 +128,7 @@ const CardEditModal = (props) => {
         <React.Fragment>
             {ReactDOM.createPortal(
                 <Draggable disabled={dragDisabled}>
-                    <ModalContainer>
+                    <ModalContainer color={card.color}>
                         <ModalHeader>
                             <ModalButton
                                 style={{
@@ -90,6 +149,7 @@ const CardEditModal = (props) => {
                             </ModalButton>
                             <ModalButton onClick={closeModal}>X</ModalButton>
                         </ModalHeader>
+
                         <ModalBody>
                             <CardFieldName>
                                 <ModalInput
@@ -101,10 +161,36 @@ const CardEditModal = (props) => {
                                     onChange={nameChangeHandler}
                                     onFocus={disableDrag}
                                     onBlur={enableDrag}
-                                    ref={nameInputRef}
                                 ></ModalInput>
                             </CardFieldName>
-                            <CardFieldThumbnail><UploadAndDisplayImage /></CardFieldThumbnail>
+                            <CardFieldThumbnail>
+                                {card.image && (
+                                    <ModalImage alt="none" src={imageURL} />
+                                )}
+                                <input
+                                    type="file"
+                                    id="thumbnail-upload"
+                                    onChange={imageChangeHandler}
+                                    style={{
+                                        color: "transparent",
+                                        position: "absolute",
+                                        top: "18rem",
+                                        left: "5.5rem",
+                                        fontSize: "10px",
+                                    }}
+                                />
+                                <button
+                                    style={{
+                                        position: "absolute",
+                                        top: "18rem",
+                                        left: "9.9rem",
+                                        fontSize: "10px",
+                                    }}
+                                    onClick={imageClearHandler}
+                                >
+                                    Clear
+                                </button>
+                            </CardFieldThumbnail>
                             <CardFieldDescription>
                                 <ModalInput
                                     style={{ fontSize: "1.2rem" }}
@@ -115,10 +201,16 @@ const CardEditModal = (props) => {
                                     onChange={descriptionChangeHandler}
                                     onFocus={disableDrag}
                                     onBlur={enableDrag}
-                                    ref={desInputRef}
                                 ></ModalInput>
                             </CardFieldDescription>
                         </ModalBody>
+                        <div style={{ position: "absolute", top: "29.3rem" }}>
+                            <GithubPicker
+                                onChangeComplete={colorChangeCompleteHandler}
+                                width={paletteWidth}
+                                colors={palette}
+                            />
+                        </div>
                     </ModalContainer>
                 </Draggable>,
                 document.getElementById("modal-root")

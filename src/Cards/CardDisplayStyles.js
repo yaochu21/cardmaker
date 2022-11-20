@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 const CardFieldTemplate = styled.div(
     (props) => css`
         & {
-            display: flex;
             background-color: transparent;
             border: 1px dashed black;
             border-radius: 2px;
@@ -18,16 +17,18 @@ const CardFieldTemplate = styled.div(
 );
 
 const CardFieldName = styled(CardFieldTemplate)`
+    display: flex;
     height: 20%;
     font-size: max(100%, 1rem);
 `;
 
 const CardFieldThumbnail = styled(CardFieldTemplate)`
-    height: 40%;
+    height: 45%;
 `;
 
 const CardFieldDescription = styled(CardFieldTemplate)`
-    height: 40%;
+    display: flex;
+    height: 35%;
     font-size: 80%;
     overflow: clip;
 `;
@@ -42,7 +43,8 @@ const CardContainer = styled.div(
             margin: auto;
             width: 80%;
             height: 100%;
-            background-color: #e6e6e6;
+            background-color: rgba(${props.color.r}, ${props.color.g}, ${props.color.b}, ${props.color.a});
+            opacity: 0.9;
             border-style: solid;
             border-width: 0.1rem;
             border-radius: 4px;
@@ -51,7 +53,7 @@ const CardContainer = styled.div(
         }
 
         &:hover {
-            background-color: #ededed;
+            background-color: rgba(${props.color.r + 10}, ${props.color.g + 10}, ${props.color.b + 10}, ${props.color.a})
         }
 
         ${props.isSelected &&

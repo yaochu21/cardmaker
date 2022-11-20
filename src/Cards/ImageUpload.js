@@ -1,31 +1,33 @@
 import React, { useState } from "react";
+import { ModalImage } from "./CardEditModalStyles";
 
-const UploadAndDisplayImage = () => {
+const ImageDisplay = (props) => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageURL,setImageURL] = useState(null);
+
+  const removeHandler = (event) => {
+    setSelectedImage(null);
+    setImageURL(null);
+  }
+
+  const selectHandler = (event) => {
+    var file = event.target.files[0];
+    console.log(file);
+    setSelectedImage(file);
+
+    var url = URL.createObjectURL(file);
+    setImageURL(url);
+    props.card.image = url;
+  }
 
   return (
-    <div>
-      <h1>Upload and Display Image using React Hook's</h1>
+    <React.Fragment>
       {selectedImage && (
-        <div>
-        <img alt="not fount" width={"250px"} src={URL.createObjectURL(selectedImage)} />
-        <br />
-        <button onClick={()=>setSelectedImage(null)}>Remove</button>
-        </div>
+        <ModalImage src={imageURL} />
       )}
-      <br />
-     
-      <br /> 
-      <input
-        type="file"
-        name="myImage"
-        onChange={(event) => {
-          console.log(event.target.files[0]);
-          setSelectedImage(event.target.files[0]);
-        }}
-      />
-    </div>
+      
+    </React.Fragment>
   );
 };
 
-export default UploadAndDisplayImage;
+export default ImageDisplay;

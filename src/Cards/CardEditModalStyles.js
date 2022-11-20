@@ -3,15 +3,24 @@ import styled, { css } from "styled-components";
 const ModalContainer = styled.div(
     (props) => css`
         position: absolute;
-        display: flex;
-        flex-direction: column;
         border: 2px solid black;
         border-radius: 0.5rem;
         width: 18rem;
         height: 30rem;
-        background-color: #e6e6e6;
-        margin-left: 7rem;
-        margin-top: 5rem;
+        /* margin-left: 7rem;
+        margin-top: 5rem; */
+
+        left: 50%;
+        top: 50%;
+
+        margin-left: -9rem;
+        margin-top: -15rem;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        background-color: rgba(${props.color.r}, ${props.color.g}, ${props.color.b}, ${props.color.a});
     `
 );
 
@@ -27,8 +36,12 @@ const ModalHeader = styled.div(
 
 const ModalBody = styled.div(
     (props) => css`
-        width: 100%;
-        height: 96%;
+        display: flex;
+        flex-direction: column;
+        gap: 2%;
+        width: 85%;
+        height: 85%;
+        margin-top: 6%;
     `
 );
 
@@ -39,7 +52,7 @@ const ModalButton = styled.button(
             justify-content: center;
             height: 100%;
             border: none;
-            background-color: inherit;
+            background-color: transparent;
             font-family: "Open-Sans";
             padding: none;
         }
@@ -62,7 +75,6 @@ const ModalInput = styled.input(
             text-align: center;
             overflow: scroll;
             user-select: all;
-             
         }
 
         &:hover {
@@ -77,4 +89,22 @@ const ModalInput = styled.input(
     `
 );
 
-export { ModalContainer, ModalHeader, ModalButton, ModalBody, ModalInput };
+const ModalImage = styled.div(
+    (props) => css`
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        background-image: url(${props.src});
+        background-size: cover;
+    `
+);
+
+export {
+    ModalContainer,
+    ModalHeader,
+    ModalButton,
+    ModalBody,
+    ModalInput,
+    ModalImage,
+};
