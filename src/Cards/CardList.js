@@ -8,24 +8,8 @@ import "./CardList.css";
 
 const CardList = (props) => {
 
-    /*** Sample Initialization ***/
-    var cards = Array(10).fill({
-        card_id: 1,
-        name: "Strike",
-        description: "Deal 5 damage",
-        tags: ["basic"],
-        fields: { cost: 5 },
-        image: null,
-        color: {r:233,g:233,b:233,a:255}
-    });
-
-    var i = 0;
-    for (i = 0; i < 10; i++) {
-        cards[i] = { ...cards[i], card_id: i };
-    }
-
     /*** State Initialization ***/
-    const [deck,setDeck] = useState(cards);
+    const [deck,setDeck] = useState(props.cards);
     const [selectedCards, setSelectedCards] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
