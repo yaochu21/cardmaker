@@ -3,14 +3,15 @@ import JSzip from "jszip";
 
 function ProjectLoader(props) {
     const [newCards, setNewCards] = useState([]);
-    const [imageURLMap, setImageURLMap] = useState(new Map());
+    const [newImageURLMap, setNewImageURLMap] = useState(new Map());
 
     useEffect(() => {
         let deck = [].concat(newCards);
+        console.log(newImageURLMap);
 
-        if (deck.length > 0 && imageURLMap.size > 0) {
+        if (deck.length > 0 && newImageURLMap.size > 0) {
             deck.forEach((card) => {
-                let url = imageURLMap.get(card.name);
+                let url = newImageURLMap.get(card.name);
                 if (url) {
                     card.image = url;
                 }
@@ -18,13 +19,44 @@ function ProjectLoader(props) {
             console.log(deck);
             props.handleLoadProject(deck);
         }
-    }, [newCards, imageURLMap]);
+        else {
+            console.log("cards/images incomplete");
+        }
+    }, [newCards, newImageURLMap]);
 
-    const loadThumbnails = (event) => {
+    const loadThumbnails = async (event) => {
         const file = event.target.files[0];
+        const zip = await JSzip.loadAsync(file);
+        const folder = zip.folder("art");
+        console.log(folder);
 
-        
+        const promises = [];
+        const names = [];
 
+        folder.forEach((path,entry) => {
+            if (!(path.indexOf('.') === 0)) {
+                console.log(path);
+                promises.push(entry.async("arraybuffer"));
+                names.push(path.split('.')[0]); // cardName.jpg -> cardName
+            }
+        });
+        const contents = await Promise.all(promises);
+
+        let map = new Map();
+        for (let i = 0; i < contents.length; i++) {
+            var buffer = new Uint8Array(contents[i]);
+            var blob = new Blob([buffer.buffer]);
+            var src = URL.createObjectURL(blob);
+            
+            const name = names[i];
+            console.log(name + ": " + src);
+            if (!(name.indexOf("MACOSX") > -1)) {
+                map.set(name,src);
+            }
+        }
+        setNewImageURLMap(map);
+
+        /*
         JSzip.loadAsync(file).then((zip) => {
             zip.folder("art").forEach((path, entry) => {
                 entry.async("arraybuffer").then((content) => {
@@ -46,14 +78,13 @@ function ProjectLoader(props) {
                     }
                 });
             });
-        });
+        }); */
     };
 
     const loadJson = (event) => {
         setNewCards([]);
         const file = event.target.files[0];
         const reader = new FileReader();
-        reader.readAsText(file);
 
         reader.addEventListener(
             "loadend",
@@ -65,17 +96,20 @@ function ProjectLoader(props) {
             false
         );
 
-        // if (file) {
-        //     JSzip.loadAsync(file).then((zip) => {
-        //         zip.file("deck.json")
-        //             .async("text")
-        //             .then((content) => {
-        //                 const deck = JSON.parse(content);
-        //                 setNewCards(deck);
-        //                 console.log(deck);
-        //             });
-        //     }, null);
-        // }
+        reader.readAsText(file);
+
+        /*
+        if (file) {
+            JSzip.loadAsync(file).then((zip) => {
+                zip.file("deck.json")
+                    .async("text")
+                    .then((content) => {
+                        const deck = JSON.parse(content);
+                        setNewCards(deck);
+                        console.log(deck);
+                    });
+            }, null);
+        } */
     };
 
     return (
