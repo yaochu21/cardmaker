@@ -33,7 +33,7 @@ function App() {
     return (
         <div>
             <ProjectLoader handleLoadProject={loadProjectHandler}/>
-            {/* <CardList cards={activeDeck}/> */}
+            <CardList cards={activeDeck}/>
         </div>
     );
 }

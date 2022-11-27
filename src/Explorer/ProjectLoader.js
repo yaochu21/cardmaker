@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import JSzip from "jszip";
 
 function ProjectLoader(props) {
-    const [newDeck, setNewDeck] = useState([]);
+    const [newCards, setNewCards] = useState([]);
     const [imageURLMap, setImageURLMap] = useState(new Map());
 
     useEffect(() => {
-        let deck = [].concat(newDeck);
+        let deck = [].concat(newCards);
 
         if (deck.length > 0 && imageURLMap.size > 0) {
             deck.forEach((card) => {
@@ -18,56 +18,70 @@ function ProjectLoader(props) {
             console.log(deck);
             props.handleLoadProject(deck);
         }
-    }, [newDeck,imageURLMap]);
+    }, [newCards, imageURLMap]);
 
-    const loadProject = (event) => {
-
-        setNewDeck([]);
-        setImageURLMap(new Map());
-
+    const loadThumbnails = (event) => {
         const file = event.target.files[0];
 
-        if (file) {
+        
 
-            JSzip.loadAsync(file).then((zip) => {
-                zip.folder("art").forEach((path, entry) => {
-                    entry.async("arraybuffer").then((content) => {
-                        var buffer = new Uint8Array(content);
-                        var blob = new Blob([buffer.buffer]);
-                        var src = URL.createObjectURL(blob);
+        JSzip.loadAsync(file).then((zip) => {
+            zip.folder("art").forEach((path, entry) => {
+                entry.async("arraybuffer").then((content) => {
+                    var buffer = new Uint8Array(content);
+                    var blob = new Blob([buffer.buffer]);
+                    var src = URL.createObjectURL(blob);
 
-                        var i = entry.name.indexOf("/");
-                        var j = entry.name.indexOf(".");
-                        const name = entry.name.substring(i + 1, j);
-                        console.log(name + ": " + src);
+                    var i = entry.name.indexOf("/");
+                    var j = entry.name.indexOf(".");
+                    const name = entry.name.substring(i + 1, j);
+                    console.log(name + ": " + src);
 
-                        if (!(name.indexOf("MACOSX") > -1)) {
-                            setImageURLMap((prevState) => {
-                                let map = new Map(prevState);
-                                map.set(name, src);
-                                return map;
-                            });
-                        }
-                    });
+                    if (!(name.indexOf("MACOSX") > -1)) {
+                        setImageURLMap((prevState) => {
+                            let map = new Map(prevState);
+                            map.set(name, src);
+                            return map;
+                        });
+                    }
                 });
+            });
+        });
+    };
 
-                zip.file("deck.json")
-                    .async("text")
-                    .then((content) => {
-                        const deck = JSON.parse(content);
+    const loadJson = (event) => {
+        setNewCards([]);
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.readAsText(file);
 
-                        setNewDeck(deck);
-                        console.log(deck);
-                    });
-            }, null);
-        }
+        reader.addEventListener(
+            "loadend",
+            () => {
+                const cards = JSON.parse(reader.result);
+                console.log(cards);
+                setNewCards(cards);
+            },
+            false
+        );
 
-        console.log("I'm finishing");
+        // if (file) {
+        //     JSzip.loadAsync(file).then((zip) => {
+        //         zip.file("deck.json")
+        //             .async("text")
+        //             .then((content) => {
+        //                 const deck = JSON.parse(content);
+        //                 setNewCards(deck);
+        //                 console.log(deck);
+        //             });
+        //     }, null);
+        // }
     };
 
     return (
-        <div style={{ position: "absolute", top: "45%", left: "42%" }}>
-            <input type="file" onChange={loadProject} />
+        <div style={{ position: "absolute", top: "0%", left: "0%" }}>
+            <input type="file" onChange={loadJson} />
+            <input type="file" onChange={loadThumbnails} />
             {/* <img src={imageURLs[1]} style={{width:"200px",height:"200px",objectFit:"cover"}} /> */}
         </div>
     );
