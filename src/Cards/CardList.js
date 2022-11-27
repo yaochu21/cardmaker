@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import NewCard from "./NewCard";
 import CardDisplay from "./CardDisplay";
@@ -9,7 +9,6 @@ import "./CardList.css";
 const CardList = (props) => {
 
     /*** State Initialization ***/
-    const [deck,setDeck] = useState(props.cards);
     const [selectedCards, setSelectedCards] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
@@ -17,10 +16,6 @@ const CardList = (props) => {
     const [editingCard, setEditingCard] = useState(null);
 
     /*** Card Handlers ***/
-
-    const deckUpdateHandler = () => {
-
-    }
 
     const cardSelectHander = (card, shift, hack = false) => {
         setSelectedCards((prevState) => {
@@ -89,7 +84,7 @@ const CardList = (props) => {
         <Overlay onClick={overlayClickHandler}>
             <ul className="card-list">
                 <NewCard />
-                {deck.map((card) => (
+                {props.cards.map((card) => (
                     <div className="member" key={Math.random().toString()}>
                         <CardDisplay
                             isSelected={selectedCards.includes(card)}

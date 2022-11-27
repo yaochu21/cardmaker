@@ -19,6 +19,9 @@ function ProjectLoader(props) {
             console.log(deck);
             props.handleLoadProject(deck);
         }
+        else if (deck.length > 0) {
+            props.handleLoadProject(deck);
+        }
         else {
             console.log("cards/images incomplete");
         }

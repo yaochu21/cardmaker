@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ModalImage } from "./CardEditModalStyles";
 
-const ImageDisplay = (props) => {
+const CardImageDisplay = (props) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageURL,setImageURL] = useState(null);
 
@@ -30,4 +30,4 @@ const ImageDisplay = (props) => {
   );
 };
 
-export default ImageDisplay;
+export default CardImageDisplay;
