@@ -81,39 +81,36 @@ function ProjectLoader(props) {
     const retrieveActiveDeck = async (event) => {
         const deck = props.getActiveDeck();
         const deckJson = JSON.stringify(deck);
+        const names = [];
 
         let loadURLPromises = [];
         for (let i = 0; i < deck.length; i++) {
             let card = deck[i];
             if (card.image != null) {
                 console.log(card.image);
+                names.push(`${card.name}.jpg`);
                 loadURLPromises.push(fetch(card.image))
-                // let imageBlob = new Blob([card.image],{type:"image"});
-                // let imageFile = new File([card.image],`${card.name}.jpg`,{type:"image"});
-                // imageFiles.push(imageBlob);
             }
         }
 
         const resources = await Promise.all(loadURLPromises);
+        let loadResourcePromises = []
         for (let i = 0; i < resources.length; i++) {
-            let blob = await (await resources[i].blob()).arrayBuffer();
+            loadResourcePromises.push(resources[i].blob());
         }
 
+        let zip = new JSzip();
+        zip.file("deck.json",deckJson);
+        zip.folder("art");
 
-        // let imageFiles = []
-        // console.log(imageFiles);
+        const blobs = await Promise.all(loadResourcePromises);
+        for (let i = 0; i < blobs.length; i++) {
+            let file = await blobs[i].arrayBuffer();
+            zip.folder("art").file(names[i],file);
+        }
 
-        // let zip = new JSzip();
-        // zip.file("deck.json",deckJson);
-        // zip.folder("art");
-
-        // for (let i = 0; i < imageFiles.length; i++) {
-        //     let image = imageFiles[i];
-        //     zip.folder("art").file(image.name,image);
-        // }
-
-        // const zipObject = await zip.generateAsync({type:"blob",compression:"DEFLATE",compressionOptions:{level:3}});        
-        // saveAs(zipObject,"deck.zip");
+        const zipObject = await zip.generateAsync({type:"blob",compression:"DEFLATE",compressionOptions:{level:3}});        
+        saveAs(zipObject,"deck.zip");
     }
 
     return (
