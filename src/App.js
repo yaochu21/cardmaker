@@ -24,11 +24,13 @@ function App() {
 
     const loadProjectHandler = (deck) => {
         console.log("load called");
+        for (const card in activeDeck) {
+            if (card.image != null) {
+                URL.revokeObjectURL(card.image);
+            }
+        }
         setActiveDeck(deck);
     }
-
-    console.log("I was rendered");
-    console.log(activeDeck);
 
     return (
         <div>
