@@ -13,8 +13,8 @@ const ModalContainer = styled.div(
         left: 50%;
         top: 50%;
 
-        margin-left: -9rem;
-        margin-top: -15rem;
+        margin-left: -10rem;
+        margin-top: -16rem;
 
         display: flex;
         flex-direction: column;

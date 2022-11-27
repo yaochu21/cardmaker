@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import JSzip from "jszip";
+import { saveAs } from 'file-saver';
 
 function ProjectLoader(props) {
     const [newCards, setNewCards] = useState([]);
@@ -47,9 +48,9 @@ function ProjectLoader(props) {
 
         let map = new Map();
         for (let i = 0; i < contents.length; i++) {
-            var buffer = new Uint8Array(contents[i]);
-            var blob = new Blob([buffer.buffer]);
-            var src = URL.createObjectURL(blob);
+            let buffer = new Uint8Array(contents[i]);
+            let blob = new Blob([buffer.buffer]);
+            let src = URL.createObjectURL(blob);
             
             const name = names[i];
             console.log(name + ": " + src);
@@ -58,30 +59,6 @@ function ProjectLoader(props) {
             }
         }
         setNewImageURLMap(map);
-
-        /*
-        JSzip.loadAsync(file).then((zip) => {
-            zip.folder("art").forEach((path, entry) => {
-                entry.async("arraybuffer").then((content) => {
-                    var buffer = new Uint8Array(content);
-                    var blob = new Blob([buffer.buffer]);
-                    var src = URL.createObjectURL(blob);
-
-                    var i = entry.name.indexOf("/");
-                    var j = entry.name.indexOf(".");
-                    const name = entry.name.substring(i + 1, j);
-                    console.log(name + ": " + src);
-
-                    if (!(name.indexOf("MACOSX") > -1)) {
-                        setImageURLMap((prevState) => {
-                            let map = new Map(prevState);
-                            map.set(name, src);
-                            return map;
-                        });
-                    }
-                });
-            });
-        }); */
     };
 
     const loadJson = (event) => {
@@ -98,28 +75,52 @@ function ProjectLoader(props) {
             },
             false
         );
-
         reader.readAsText(file);
-
-        /*
-        if (file) {
-            JSzip.loadAsync(file).then((zip) => {
-                zip.file("deck.json")
-                    .async("text")
-                    .then((content) => {
-                        const deck = JSON.parse(content);
-                        setNewCards(deck);
-                        console.log(deck);
-                    });
-            }, null);
-        } */
     };
+
+    const retrieveActiveDeck = async (event) => {
+        const deck = props.getActiveDeck();
+        const deckJson = JSON.stringify(deck);
+
+        let loadURLPromises = [];
+        for (let i = 0; i < deck.length; i++) {
+            let card = deck[i];
+            if (card.image != null) {
+                console.log(card.image);
+                loadURLPromises.push(fetch(card.image))
+                // let imageBlob = new Blob([card.image],{type:"image"});
+                // let imageFile = new File([card.image],`${card.name}.jpg`,{type:"image"});
+                // imageFiles.push(imageBlob);
+            }
+        }
+
+        const resources = await Promise.all(loadURLPromises);
+        for (let i = 0; i < resources.length; i++) {
+            let blob = await (await resources[i].blob()).arrayBuffer();
+        }
+
+
+        // let imageFiles = []
+        // console.log(imageFiles);
+
+        // let zip = new JSzip();
+        // zip.file("deck.json",deckJson);
+        // zip.folder("art");
+
+        // for (let i = 0; i < imageFiles.length; i++) {
+        //     let image = imageFiles[i];
+        //     zip.folder("art").file(image.name,image);
+        // }
+
+        // const zipObject = await zip.generateAsync({type:"blob",compression:"DEFLATE",compressionOptions:{level:3}});        
+        // saveAs(zipObject,"deck.zip");
+    }
 
     return (
         <div style={{ position: "absolute", top: "0%", left: "0%" }}>
             <input type="file" onChange={loadJson} />
             <input type="file" onChange={loadThumbnails} />
-            {/* <img src={imageURLs[1]} style={{width:"200px",height:"200px",objectFit:"cover"}} /> */}
+            <button onClick={retrieveActiveDeck}>Get Active Deck</button>
         </div>
     );
 }

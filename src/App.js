@@ -5,7 +5,7 @@ import ProjectLoader from "./Explorer/ProjectLoader";
 function App() {
 
     /*** Sample Initialization ***/
-    var sampleDeck = Array(10).fill({
+    let sampleDeck = Array(10).fill({
         card_id: 1,
         name: "Strike",
         description: "Deal 5 damage",
@@ -15,7 +15,7 @@ function App() {
         color: {r:233,g:233,b:233,a:255}
     });
 
-    var i = 0;
+    let i = 0;
     for (i = 0; i < 10; i++) {
         sampleDeck[i] = { ...sampleDeck[i], card_id: i };
     }
@@ -32,9 +32,13 @@ function App() {
         setActiveDeck(deck);
     }
 
+    const getActiveDeckHandler = () => {
+        return activeDeck;
+    }
+
     return (
         <div>
-            <ProjectLoader handleLoadProject={loadProjectHandler}/>
+            <ProjectLoader handleLoadProject={loadProjectHandler} getActiveDeck={getActiveDeckHandler}/>
             <CardList cards={activeDeck}/>
         </div>
     );
