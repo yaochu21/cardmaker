@@ -19,6 +19,8 @@ const CardFilter = (props) => {
         }
     }
 
+    return <div></div>
+
 }
 
 // a style component for tags (square block)
