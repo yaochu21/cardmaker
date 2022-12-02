@@ -20,13 +20,15 @@ import {
 const CardEditModal = (props) => {
     const [dragDisabled, setDragDisabled] = useState(false);
     const [card, setCard] = useState(props.card);
-    const [imageURL, setImageURL] = useState(null);
+    const [imageURL, setImageURL] = useState(props.card.image);
 
     /*** Check editing card ***/
     useEffect(() => {
-        console.log("CardEditModal use effect");
+        // console.log("CardEditModal use effect");
+        // console.log(props.card);
         if (props.card.card_id != card.card_id) {
             setCard(props.card);
+            setImageURL(props.card.image);
         }
     })
 

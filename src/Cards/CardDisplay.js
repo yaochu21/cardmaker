@@ -41,7 +41,7 @@ const CardDisplay = (props) => {
 
     const openContextMenu = (event) => {
         event.preventDefault();
-        props.handleContextMenu(event, true);
+        props.handleContextMenu(event);
         props.handleCardSelect(props.card, event.shiftKey, true);
     };
 

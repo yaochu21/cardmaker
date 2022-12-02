@@ -53,7 +53,7 @@ const CardContainer = styled.div(
         }
 
         &:hover {
-            background-color: rgba(${props.color.r + 10}, ${props.color.g + 10}, ${props.color.b + 10}, ${props.color.a})
+            background-color: rgba(${props.color.r + 12}, ${props.color.g + 12}, ${props.color.b + 12}, ${props.color.a})
         }
 
         ${props.isSelected &&
@@ -62,14 +62,7 @@ const CardContainer = styled.div(
             outline-color: #00bfbf;
             outline-width: 0.1rem;
             box-shadow: 0 0 10px #9ecaed;
-        `}/* ${props.isSelected &&
-        css`
-            &::after {
-                border-color: red;
-                border-style: solid;
-                content: "";
-            }
-        `} */
+        `}
     `
 );
 

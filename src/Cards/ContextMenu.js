@@ -10,9 +10,11 @@ const ContextMenu = (props) => {
         props.openCardModal();
     };
 
-    const contextMenuDeleteHandler = (event) => {};
-
-    const contextMenuMoveHandler = (event) => {};
+    const contextMenuDeleteHandler = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        props.deleteCard();
+    };
 
     return (
         <React.Fragment>
@@ -21,12 +23,9 @@ const ContextMenu = (props) => {
                     <ContextMenuButton onClick={contextMenuEditHandler}>
                         Edit
                     </ContextMenuButton>
-                    <MidContextMenuButton onClick={contextMenuDeleteHandler}>
+                    <BottomContextMenuButton onClick={contextMenuDeleteHandler}>
                         Delete
-                    </MidContextMenuButton>
-                    <ContextMenuButton onClick={contextMenuMoveHandler}>
-                        Move
-                    </ContextMenuButton>
+                    </BottomContextMenuButton>
                 </ContextMenuContainer>
             ,document.getElementById("context-menu-root"))}
         </React.Fragment>
@@ -52,9 +51,8 @@ const ContextMenuButton = styled.button`
     border-width: 1px;
 `;
 
-const MidContextMenuButton = styled(ContextMenuButton)`
+const BottomContextMenuButton = styled(ContextMenuButton)`
     border-top: none;
-    border-bottom: none;
 `;
 
 export default ContextMenu;

@@ -7,7 +7,6 @@ import CardEditModal from "./CardEditModal";
 import "./CardList.css";
 
 const CardList = (props) => {
-
     /*** State Initialization ***/
     const [selectedCards, setSelectedCards] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,26 +25,46 @@ const CardList = (props) => {
                 );
                 return newSelected ? newSelected : [];
             } else if ((index < 0 && shift) || hack) {
-                console.log([...prevState, card].map((e) => e.card_id));
                 return [...prevState, card];
             } else {
-                console.log([card.card_id]);
                 return [card];
             }
         });
     };
 
+    const generateCardHandler = (event) => {
+        let newID = props.cards[0].card_id + 1;
+        console.log("generating new card, id: "+newID);
+        let newCard = {
+            card_id: newID,
+            name: "New Card",
+            description: "Description",
+            tags: [],
+            fields: {},
+            image: null,
+            color: { r: 233, g: 233, b: 233, a: 255 },
+        };
+        props.handleNewCard(newCard);
+        setEditingCard(newCard);
+        setSelectedCards([newCard]);
+        setIsCardModalOpen(true);
+    };
+
+    const cardDeleteSelectedHandler = () => {
+        if (selectedCards.length <= 0) {
+            return;
+        }
+        let cardsToDelete = [].concat(selectedCards);
+        setSelectedCards([]);
+        props.handleCardDelete(cardsToDelete);
+    };
+
     /*** ContextMenu Handlers ***/
 
-    const contextMenuHandler = (event, open) => {
+    const contextMenuHandler = (event) => {
         event.preventDefault();
-        if (open) {
-            console.log("context menu requested");
-            spawnContextMenu(event.clientX, event.clientY);
-        } else {
-            console.log("context menu closing");
-            closeContextMenu(event);
-        }
+        console.log("context menu requested");
+        spawnContextMenu(event.clientX, event.clientY);
     };
 
     const spawnContextMenu = (x, y) => {
@@ -58,7 +77,7 @@ const CardList = (props) => {
     };
 
     const overlayClickHandler = (event) => {
-        console.log("overlay clicked");
+        //console.log("overlay clicked");
         setSelectedCards([]);
         setIsMenuOpen(false);
     };
@@ -73,6 +92,7 @@ const CardList = (props) => {
         } else {
             console.log("no card selected");
         }
+        return
     };
 
     const closeCardModalHandler = (event) => {
@@ -83,7 +103,9 @@ const CardList = (props) => {
     return (
         <Overlay onClick={overlayClickHandler}>
             <ul className="card-list">
-                <NewCard />
+                <div className="member" key={Math.random().toString()} onClick={generateCardHandler}>
+                    <NewCard/>
+                </div>
                 {props.cards.map((card) => (
                     <div className="member" key={Math.random().toString()}>
                         <CardDisplay
@@ -101,7 +123,7 @@ const CardList = (props) => {
                     x={menuCoord.x}
                     y={menuCoord.y}
                     openCardModal={openCardModalHandler}
-                    closeCardModal={closeCardModalHandler}
+                    deleteCard={cardDeleteSelectedHandler}
                 />
             ) : null}
             {isCardModalOpen ? (
