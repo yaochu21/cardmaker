@@ -7,7 +7,7 @@ import {
     CardFieldName,
     CardFieldThumbnail,
     CardFieldDescription,
-} from "./CardDisplayStyles";
+} from "../Cards/CardDisplayStyles";
 import {
     ModalContainer,
     ModalHeader,
@@ -120,12 +120,6 @@ const CardEditModal = (props) => {
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
     };
-
-    // const saveFileHandler = (event) => {
-    //     console.log("save to file");
-    //     var blob = new Blob([JSON.stringify(card)], {type: "text/plain;charset=utf-8"});
-    //     saveAs(blob,`${card.name}.json`);
-    // }
 
     /*** Closing Control ***/
 

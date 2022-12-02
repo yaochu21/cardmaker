@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import NewCard from "./NewCard";
 import CardDisplay from "./CardDisplay";
-import ContextMenu from "./ContextMenu";
-import CardEditModal from "./CardEditModal";
+import ContextMenu from "../CardsUI/ContextMenu";
+import CardEditModal from "../CardsUI/CardEditModal";
 import "./CardList.css";
 
 const CardList = (props) => {
