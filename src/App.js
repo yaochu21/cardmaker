@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import CardList from "./Cards/CardList";
+import CardFilterInput from "./Explorer/CardFilterInput";
 import ProjectLoader from "./Explorer/ProjectLoader";
 
 function App() {
@@ -69,7 +70,7 @@ function App() {
 
     return (
         <div>
-            <ProjectLoader
+            {/* <ProjectLoader
                 handleLoadProject={loadProjectHandler}
                 getActiveDeck={getActiveDeckHandler}
             />
@@ -77,7 +78,8 @@ function App() {
                 cards={activeDeck}
                 handleNewCard={addCardHandler}
                 handleCardDelete={removeCardsHandler}
-            />
+            /> */}
+            <CardFilterInput />
         </div>
     );
 }
