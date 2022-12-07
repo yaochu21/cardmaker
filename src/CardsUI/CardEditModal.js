@@ -11,19 +11,21 @@ import {
 import {
     ModalContainer,
     ModalCardContainer,
-    ModalColumnContainer,
     ModalHeader,
     ModalButton,
     ModalBody,
     ModalInput,
     ModalImage,
-    ModalColumnSection,
 } from "./CardEditModalStyles";
+import TagInput from '../Explorer/TagInput';
 
 const CardEditModal = (props) => {
     const [dragDisabled, setDragDisabled] = useState(false);
     const [card, setCard] = useState(props.card);
     const [imageURL, setImageURL] = useState(props.card.image);
+    const [tags,setTags] = useState(props.card.tags.map((tag) => {return {label:tag,value:tag}}));
+
+    console.log(tags);
 
     /*** Check editing card ***/
     useEffect(() => {
@@ -109,6 +111,8 @@ const CardEditModal = (props) => {
         props.card.description = card.description;
         props.card.image = card.url;
         props.card.color = card.color;
+        props.card.tags = tags.map((tagObject) => {return tagObject.label});
+        props.handleTagUpdate(props.card);
     };
 
     const saveFileHandler = (event) => {
@@ -143,13 +147,15 @@ const CardEditModal = (props) => {
                             }}
                         >
                                 <ModalCardContainer
-                                    color={card.color}
+                                    color={{ r: 243, g: 243, b: 243, a: 255 }}
                                     style={{
                                         width: "100%",
                                         height: "100%",
-                                        borderWidth: "1px"
+                                        borderStyle: "dashed"
                                     }}
-                                />
+                                >
+                                    <TagInput tagColor={card.color} currTags={tags} allTags={props.activeTags} setTags={setTags}/>
+                                </ModalCardContainer>
                         </div>
                         <ModalCardContainer
                             color={card.color}

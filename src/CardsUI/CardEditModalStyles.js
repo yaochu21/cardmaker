@@ -31,17 +31,6 @@ const ModalCardContainer = styled.div(
     `
 );
 
-const ModalColumnContainer = styled.div`
-    margin-top: 2rem;
-    height: 80%;
-    width: 12rem;
-`;
-
-const ModalColumnSection = styled.div`
-    width: 100%;
-    height: 50%;
-`
-
 const ModalHeader = styled.div`
     width: 100%;
     height: 7%;
@@ -115,8 +104,6 @@ const ModalImage = styled.div(
 export {
     ModalContainer,
     ModalCardContainer,
-    ModalColumnContainer,
-    ModalColumnSection,
     ModalHeader,
     ModalButton,
     ModalBody,

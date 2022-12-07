@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+    useState,
+    useRef,
+    useEffect,
+    useContext,
+    createContext,
+} from "react";
 import CardList from "./Cards/CardList";
 import CardFilter from "./Explorer/CardFilter";
 import ProjectLoader from "./Explorer/ProjectLoader";
@@ -14,18 +20,16 @@ function App() {
         tags: ["basic"],
         fields: { cost: 5 },
         image: null,
-        color: { r: 233, g: 233, b: 233, a: 255 },
+        color: { r: 233, g: 233, b: 233, a: 1 },
     });
 
     let i = 0;
     for (i = 0; i < 10; i++) {
         sampleDeck[i] = { ...sampleDeck[i], card_id: 9 - i };
     }
-    let tagMap = new Map();
-    tagMap.set("basic", 10);
 
     const [activeDeck, setActiveDeck] = useState(sampleDeck);
-    const [activeTags, setActiveTags] = useState(tagMap);
+    const [activeTags, setActiveTags] = useState(["basic"]);
 
     const loadProjectHandler = (deck) => {
         console.log("load called");
@@ -61,16 +65,24 @@ function App() {
         return activeDeck;
     };
 
-    const getActiveCardNamesHandler = () => {
-        return activeDeck.map((card) => {
-            return card.name;
-        });
-    };
-
-    const getActiveTagObjectsHandler = () => {
-        let tagMapKeysIter = getIterableKeys(activeTags);
-        return Array.from(tagMapKeysIter);
-    };
+    const updateTagMapHandler = (card) => {
+        console.log("update tag handler called");
+        let updatedTags = card.tags;
+        let newEntries = [];
+        for (let i = 0; i < updatedTags.length; i++) {
+            if (activeTags.indexOf(updatedTags[i]) > -1) {
+                continue;
+            }
+            else {
+                newEntries.push(updatedTags[i]);
+            }
+        }
+        if (newEntries.length > 0) {
+            setActiveTags((prev) => {
+                return prev.concat(newEntries);
+            })
+        }
+    }
 
     const removeCardsHandler = (cards) => {
         let card_ids = activeDeck.map((card) => {
@@ -114,6 +126,8 @@ function App() {
                 cards={activeDeck}
                 handleNewCard={addCardHandler}
                 handleCardDelete={removeCardsHandler}
+                handleTagUpdate={updateTagMapHandler}
+                activeTags={activeTags}
             />
             {/* <CardFilter /> */}
             {/* <TagInput /> */}

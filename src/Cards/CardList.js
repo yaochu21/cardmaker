@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import NewCard from "./NewCard";
 import CardDisplay from "./CardDisplay";
@@ -129,6 +129,8 @@ const CardList = (props) => {
             {isCardModalOpen ? (
                 <CardEditModal
                     card={editingCard}
+                    activeTags={props.activeTags}
+                    handleTagUpdate={props.handleTagUpdate}
                     closeCardModal={closeCardModalHandler}
                 />
             ) : null}

@@ -6,26 +6,27 @@ import CreatableSelect from "react-select/creatable";
 const TagInput = (props) => {
     const [selectedOptions, setSelectedOptions] = useState("");
 
-    let options = [
-        { value: "basic", label: "basic" },
-        { value: "advanced", label: "advanced" },
-    ];
+    console.log("all tags:");
+    console.log(props.allTags);
+    console.log("curr tags:");
+    console.log(props.currTags);
 
     const formatCreateLabel = (input) => {
         return `${input}`;
     };
 
-    const onChangeHandler = (input) => {
-
-    }
-
     return (
-        <div style={{ position: "absolute", top: "40vh", left: "45vw" }}>
+        <div style={{marginTop:"10px"}}>
             <CreatableSelect
-                components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null, ClearIndicator:() => null }}
+                components={{
+                    DropdownIndicator: () => null,
+                    IndicatorSeparator: () => null,
+                    ClearIndicator: () => null,
+                }}
+                defaultValue={props.currTags}
                 placeholder="tags..."
-                options={options}
-                onChange={setSelectedOptions}
+                options={props.allTags.map((tag) => {return {label:tag,value:tag}})}
+                onChange={props.setTags}
                 isMulti
                 isClearable
                 createOptionPosition={"first"}
@@ -47,21 +48,59 @@ const TagInput = (props) => {
                         ...baseStyles,
                         fontFamily: "Open-Sans",
                         fontSize: "14px",
+                        backgroundColor: "inherit",
+                        borderColor: state.isFocused ? "inherit" : "inherit",
+                        outline: "none",
+                        boxShadow: "none",
+                        "&:hover":{
+                            borderColor: state.isFocused ? "inherit" : "inherit",
+                            outline: "none",
+                            boxShadow: "none"
+                        }
                     }),
                     menu: (baseStyles, state) => ({
                         ...baseStyles,
                         fontFamily: "Open-Sans",
                         fontSize: "14px",
+                        marginTop: "1px"
                     }),
-                    valueContainer: (baseStyles,state) => ({
+                    menuList: (baseStyles,state) => ({
+                        ...baseStyles,
+                        paddingTop: "none",
+                        paddingBottom: "none",
+                        fontSize: "12px"
+                    }),
+                    valueContainer: (baseStyles, state) => ({
                         ...baseStyles,
                         display: "flex",
-                        width: "10rem"
+                        width: "10rem",
+                        backgroundColor: "inherit",
+                        borderRadius: "20px",
+                        maxHeight: "10rem",
+                        overflow: "scroll"
                     }),
-                    multiValueRemove: (baseStyles,state) => ({
+                    multiValueRemove: (baseStyles, state) => ({
                         ...baseStyles,
-                        backgroundColor: state.isFocused ? 'inherit' : 'inherit'
-                    })
+                        borderRadius: "20px",
+                        backgroundColor: state.isFocused
+                            ? "inherit"
+                            : "inherit",
+                    }),
+                    multiValue: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderRadius: "5px",
+                        backgroundColor: `rgba(${props.tagColor.r},${props.tagColor.g},${props.tagColor.b},1)`
+                    }),
+                    input: (baseStyles,state) => ({
+                        ...baseStyles,
+                        fontSize: "12px"
+                    }),
+                    placeholder: (baseStyles,state) => ({
+                        ...baseStyles,
+                        fontSize: "12px",
+                        fontStyle: "italic"
+                    }),
+                    
                 }}
             />
         </div>
