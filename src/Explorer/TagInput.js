@@ -6,11 +6,6 @@ import CreatableSelect from "react-select/creatable";
 const TagInput = (props) => {
     const [selectedOptions, setSelectedOptions] = useState("");
 
-    console.log("all tags:");
-    console.log(props.allTags);
-    console.log("curr tags:");
-    console.log(props.currTags);
-
     const formatCreateLabel = (input) => {
         return `${input}`;
     };
