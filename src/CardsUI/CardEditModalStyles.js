@@ -1,67 +1,79 @@
 import styled, { css } from "styled-components";
 
-const ModalContainer = styled.div(
+const ModalContainer = styled.div`
+    position: absolute;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: row;
+    width: 31rem;
+    height: 30rem;
+    left: 50%;
+    top: 50%;
+    margin-left: -20rem;
+    margin-top: -16rem;
+`;
+
+const ModalCardContainer = styled.div(
     (props) => css`
-        position: absolute;
         border: 2px solid black;
         border-radius: 0.5rem;
-        width: 18rem;
-        height: 30rem;
-        /* margin-left: 7rem;
-        margin-top: 5rem; */
-
-        left: 50%;
-        top: 50%;
-
-        margin-left: -10rem;
-        margin-top: -16rem;
 
         display: flex;
         flex-direction: column;
         align-items: center;
 
-        background-color: rgba(${props.color.r}, ${props.color.g}, ${props.color.b}, ${props.color.a});
+        background-color: rgba(
+            ${props.color.r},
+            ${props.color.g},
+            ${props.color.b},
+            ${props.color.a}
+        );
     `
 );
 
-const ModalHeader = styled.div(
-    (props) => css`
-        width: 100%;
-        height: 7%;
-        border-bottom: 2px solid black;
-        display: flex;
-        flex-direction: row;
-    `
-);
+const ModalColumnContainer = styled.div`
+    margin-top: 2rem;
+    height: 80%;
+    width: 12rem;
+`;
 
-const ModalBody = styled.div(
-    (props) => css`
-        display: flex;
-        flex-direction: column;
-        gap: 2%;
-        width: 85%;
-        height: 85%;
-        margin-top: 6%;
-    `
-);
+const ModalColumnSection = styled.div`
+    width: 100%;
+    height: 50%;
+`
 
-const ModalButton = styled.button(
-    (props) => css`
-        & {
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            border: none;
-            background-color: transparent;
-            font-family: "Open-Sans";
-            padding: none;
-        }
+const ModalHeader = styled.div`
+    width: 100%;
+    height: 7%;
+    border-bottom: 2px solid black;
+    display: flex;
+    flex-direction: row;
+`;
 
-        &:hover {
-            opacity: 0.5;
-        }
-    `
-);
+const ModalBody = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+    width: 85%;
+    height: 85%;
+    margin-top: 6%;
+`;
+
+const ModalButton = styled.button`
+    & {
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        border: none;
+        background-color: transparent;
+        font-family: "Open-Sans";
+        padding: none;
+    }
+
+    &:hover {
+        opacity: 0.5;
+    }
+`;
 
 const ModalInput = styled.input(
     (props) => css`
@@ -102,6 +114,9 @@ const ModalImage = styled.div(
 
 export {
     ModalContainer,
+    ModalCardContainer,
+    ModalColumnContainer,
+    ModalColumnSection,
     ModalHeader,
     ModalButton,
     ModalBody,

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const CardFilterInput = (props) => {
+const CardFilter = (props) => {
     const [inputString, setInputString] = useState("");
     const [filterElements, setFilterElements] = useState({
         plain: "",
@@ -15,22 +15,18 @@ const CardFilterInput = (props) => {
     };
 
     const onKeyDownHandler = (event) => {
-        // select drop down first
         if (event.key === 'Enter') {
-            parseEnteredInput();
+
         }
     }
 
     const parseEnteredInput = () => {
-        if (inputString.length <= 0) {
-            return;
-        }
-        let segments = inputString.split(":");
 
     }
 
     return (
         <input
+            value={inputString}
             onChange={onInputChangeHandler}
             onKeyDown={onKeyDownHandler}
             style={{
@@ -40,7 +36,6 @@ const CardFilterInput = (props) => {
                 position: "absolute",
                 top:"40vh",
                 left:"45vw"
-
             }}
         ></input>
     );
@@ -65,4 +60,4 @@ const CardFilterInput = (props) => {
 // properties have values
 // names are strings
 
-export default CardFilterInput;
+export default CardFilter;

@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import CardList from "./Cards/CardList";
-import CardFilterInput from "./Explorer/CardFilterInput";
+import CardFilter from "./Explorer/CardFilter";
 import ProjectLoader from "./Explorer/ProjectLoader";
+import TagInput from "./Explorer/TagInput";
+import { getIterableKeys } from "./Utilities/Iterable";
 
 function App() {
     /*** Sample Initialization ***/
@@ -19,8 +21,11 @@ function App() {
     for (i = 0; i < 10; i++) {
         sampleDeck[i] = { ...sampleDeck[i], card_id: 9 - i };
     }
+    let tagMap = new Map();
+    tagMap.set("basic", 10);
 
     const [activeDeck, setActiveDeck] = useState(sampleDeck);
+    const [activeTags, setActiveTags] = useState(tagMap);
 
     const loadProjectHandler = (deck) => {
         console.log("load called");
@@ -30,10 +35,41 @@ function App() {
             }
         }
         setActiveDeck(deck);
+        loadTags(deck);
+    };
+
+    const loadTags = (deck) => {
+        const l = deck.length;
+        let allTagsMap = new Map();
+        for (let i = 0; i < l; i++) {
+            let cardTags = deck[i].tags;
+            for (let j = 0; j < cardTags.length; j++) {
+                if (allTagsMap.has(cardTags[j])) {
+                    allTagsMap.set(
+                        cardTags[j],
+                        allTagsMap.get(cardTags[j]) + 1
+                    );
+                } else {
+                    allTagsMap.set(cardTags[j], 1);
+                }
+            }
+        }
+        setActiveTags(allTagsMap);
     };
 
     const getActiveDeckHandler = () => {
         return activeDeck;
+    };
+
+    const getActiveCardNamesHandler = () => {
+        return activeDeck.map((card) => {
+            return card.name;
+        });
+    };
+
+    const getActiveTagObjectsHandler = () => {
+        let tagMapKeysIter = getIterableKeys(activeTags);
+        return Array.from(tagMapKeysIter);
     };
 
     const removeCardsHandler = (cards) => {
@@ -70,7 +106,7 @@ function App() {
 
     return (
         <div>
-            {/* <ProjectLoader
+            <ProjectLoader
                 handleLoadProject={loadProjectHandler}
                 getActiveDeck={getActiveDeckHandler}
             />
@@ -78,8 +114,9 @@ function App() {
                 cards={activeDeck}
                 handleNewCard={addCardHandler}
                 handleCardDelete={removeCardsHandler}
-            /> */}
-            <CardFilterInput />
+            />
+            {/* <CardFilter /> */}
+            {/* <TagInput /> */}
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { saveAs } from 'file-saver';
+import { saveAs } from "file-saver";
 import Draggable, { DraggableCore } from "react-draggable";
 import { GithubPicker } from "react-color";
 import {
@@ -10,11 +10,14 @@ import {
 } from "../Cards/CardDisplayStyles";
 import {
     ModalContainer,
+    ModalCardContainer,
+    ModalColumnContainer,
     ModalHeader,
     ModalButton,
     ModalBody,
     ModalInput,
     ModalImage,
+    ModalColumnSection,
 } from "./CardEditModalStyles";
 
 const CardEditModal = (props) => {
@@ -30,7 +33,7 @@ const CardEditModal = (props) => {
             setCard(props.card);
             setImageURL(props.card.image);
         }
-    })
+    });
 
     /*** Drag Control ***/
 
@@ -75,10 +78,10 @@ const CardEditModal = (props) => {
         "#C4DEF6",
         "#BED3F3",
         "#D4C4FB",
-        "#E9E9E9"
+        "#E9E9E9",
     ];
 
-    const paletteWidth = "237px"
+    const paletteWidth = "237px";
 
     /*** Image Control ***/
 
@@ -131,89 +134,116 @@ const CardEditModal = (props) => {
         <React.Fragment>
             {ReactDOM.createPortal(
                 <Draggable disabled={dragDisabled}>
-                    <ModalContainer color={card.color}>
-                        <ModalHeader>
-                            <ModalButton
-                                style={{
-                                    marginLeft: "0.1rem",
-                                }}
-                                onClick={saveHandler}
-                            >
-                                Save
-                            </ModalButton>
-                            <ModalButton
-                                style={{
-                                    marginRight: "auto",
-                                    marginLeft: "0.1rem",
-                                }}
-                                onClick={saveFileHandler}
-                            >
-                                Download
-                            </ModalButton>
-                            <ModalButton onClick={closeModal}>X</ModalButton>
-                        </ModalHeader>
-
-                        <ModalBody>
-                            <CardFieldName>
-                                <ModalInput
-                                    style={{ fontSize: "1.2rem" }}
-                                    value={card.name}
-                                    autoComplete="off"
-                                    autoCapitalize="off"
-                                    spellCheck={false}
-                                    onChange={nameChangeHandler}
-                                    onFocus={disableDrag}
-                                    onBlur={enableDrag}
-                                ></ModalInput>
-                            </CardFieldName>
-                            <CardFieldThumbnail>
-                                {card.image && (
-                                    <ModalImage alt="none" src={imageURL} />
-                                )}
-                                <input
-                                    type="file"
-                                    id="thumbnail-upload"
-                                    onChange={imageChangeHandler}
+                    <ModalContainer>
+                        <div
+                            style={{
+                                marginTop: "2rem",
+                                height: "80%",
+                                width: "12rem",
+                            }}
+                        >
+                                <ModalCardContainer
+                                    color={card.color}
                                     style={{
-                                        color: "transparent",
-                                        position: "absolute",
-                                        top: "18rem",
-                                        left: "5.5rem",
-                                        fontSize: "10px",
+                                        width: "100%",
+                                        height: "100%",
+                                        borderWidth: "1px"
                                     }}
                                 />
-                                <button
-                                    style={{
-                                        position: "absolute",
-                                        top: "18rem",
-                                        left: "9.9rem",
-                                        fontSize: "10px",
-                                    }}
-                                    onClick={imageClearHandler}
-                                >
-                                    Clear
-                                </button>
-                            </CardFieldThumbnail>
-                            <CardFieldDescription>
-                                <ModalInput
-                                    style={{ fontSize: "1.2rem" }}
-                                    value={card.description}
-                                    autoComplete="off"
-                                    autoCapitalize="off"
-                                    spellCheck={false}
-                                    onChange={descriptionChangeHandler}
-                                    onFocus={disableDrag}
-                                    onBlur={enableDrag}
-                                ></ModalInput>
-                            </CardFieldDescription>
-                        </ModalBody>
-                        <div style={{ position: "absolute", top: "29.3rem" }}>
-                            <GithubPicker
-                                onChangeComplete={colorChangeCompleteHandler}
-                                width={paletteWidth}
-                                colors={palette}
-                            />
                         </div>
+                        <ModalCardContainer
+                            color={card.color}
+                            style={{ width: "18rem", height: "30rem" }}
+                        >
+                            <ModalHeader>
+                                <ModalButton
+                                    style={{
+                                        marginLeft: "0.1rem",
+                                    }}
+                                    onClick={saveHandler}
+                                >
+                                    Save
+                                </ModalButton>
+                                <ModalButton
+                                    style={{
+                                        marginRight: "auto",
+                                        marginLeft: "0.1rem",
+                                    }}
+                                    onClick={saveFileHandler}
+                                >
+                                    Download
+                                </ModalButton>
+                                <ModalButton onClick={closeModal}>
+                                    X
+                                </ModalButton>
+                            </ModalHeader>
+
+                            <ModalBody>
+                                <CardFieldName>
+                                    <ModalInput
+                                        style={{ fontSize: "1.2rem" }}
+                                        value={card.name}
+                                        autoComplete="off"
+                                        autoCapitalize="off"
+                                        spellCheck={false}
+                                        onChange={nameChangeHandler}
+                                        onFocus={disableDrag}
+                                        onBlur={enableDrag}
+                                    ></ModalInput>
+                                </CardFieldName>
+                                <CardFieldThumbnail>
+                                    {card.image && (
+                                        <ModalImage alt="none" src={imageURL} />
+                                    )}
+                                    <input
+                                        type="file"
+                                        id="thumbnail-upload"
+                                        onChange={imageChangeHandler}
+                                        style={{
+                                            color: "transparent",
+                                            position: "absolute",
+                                            top: "18rem",
+                                            left: "17.5rem",
+                                            fontSize: "10px",
+                                        }}
+                                    />
+                                    <button
+                                        style={{
+                                            position: "absolute",
+                                            top: "18rem",
+                                            left: "22rem",
+                                            fontSize: "10px",
+                                        }}
+                                        onClick={imageClearHandler}
+                                    >
+                                        Clear
+                                    </button>
+                                </CardFieldThumbnail>
+                                <CardFieldDescription>
+                                    <ModalInput
+                                        style={{ fontSize: "1.2rem" }}
+                                        value={card.description}
+                                        autoComplete="off"
+                                        autoCapitalize="off"
+                                        spellCheck={false}
+                                        onChange={descriptionChangeHandler}
+                                        onFocus={disableDrag}
+                                        onBlur={enableDrag}
+                                    ></ModalInput>
+                                </CardFieldDescription>
+                            </ModalBody>
+                            <div
+                                style={{ position: "absolute", top: "29.3rem" }}
+                            >
+                                <GithubPicker
+                                    onChangeComplete={
+                                        colorChangeCompleteHandler
+                                    }
+                                    width={paletteWidth}
+                                    colors={palette}
+                                />
+                            </div>
+                        </ModalCardContainer>
                     </ModalContainer>
                 </Draggable>,
                 document.getElementById("modal-root")
