@@ -187,7 +187,7 @@ function App() {
     };
 
     return (
-        <div>
+        <React.Fragment>
             <ProjectLoader
                 handleLoadProject={loadProjectHandler}
                 getActiveDeck={getActiveDeckHandler}
@@ -202,7 +202,7 @@ function App() {
             />
             <CardFilter updateFilter={updateFilterHandler}/>
             {/* <TagInput /> */}
-        </div>
+        </React.Fragment>
     );
 }
 

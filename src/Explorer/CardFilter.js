@@ -73,13 +73,17 @@ const CardFilter = (props) => {
             onChange={onInputChangeHandler}
             onKeyDown={onKeyDownHandler}
             style={{
+                WebkitAppearance: "none",
                 height: "40px",
                 width: "20rem",
-                borderStyle: "solid",
                 marginTop: "18rem",
                 marginLeft: "10rem",
                 fontFamily: "Open-Sans",
                 paddingLeft: "8px",
+                outline: "none",
+                borderStyle: "solid",
+                borderColor: "#e1e1e1",
+                borderRadius: "2px",
             }}
         ></input>
     );
