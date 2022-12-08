@@ -201,7 +201,6 @@ function App() {
                 activeTags={activeTags}
             />
             <CardFilter updateFilter={updateFilterHandler}/>
-            {/* <TagInput /> */}
         </React.Fragment>
     );
 }
