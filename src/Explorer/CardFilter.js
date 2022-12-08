@@ -1,6 +1,7 @@
 import { fontFamily } from "@mui/system";
 import React, { useState, useRef, useEffect } from "react";
 import { getIterableKeys, trim } from "../Utilities/Util";
+import "./CardFilter.css";
 
 const CardFilter = (props) => {
     const blankFilter = {
@@ -72,19 +73,7 @@ const CardFilter = (props) => {
             value={inputString}
             onChange={onInputChangeHandler}
             onKeyDown={onKeyDownHandler}
-            style={{
-                position: "absolute",
-                left: "10rem",
-                top: "20rem",
-                height: "40px",
-                width: "20rem",
-                fontFamily: "Open-Sans",
-                paddingLeft: "8px",
-                outline: "none",
-                borderStyle: "solid",
-                borderColor: "#e1e1e1",
-                borderRadius: "2px",
-            }}
+            className="search"
         ></input>
     );
 };

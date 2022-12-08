@@ -53,7 +53,8 @@ const CardContainer = styled.div(
         }
 
         &:hover {
-            background-color: rgba(${props.color.r + 12}, ${props.color.g + 12}, ${props.color.b + 12}, ${props.color.a})
+            background-color: rgba(${props.color.r + 10}, ${props.color.g + 10}, ${props.color.b + 10}, ${props.color.a});
+            box-shadow: 5.2px 5.2px 8px rgba(153, 153, 153, 0.25);
         }
 
         ${props.isSelected &&
