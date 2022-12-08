@@ -25,7 +25,7 @@ const CardEditModal = (props) => {
     const [imageURL, setImageURL] = useState(props.card.image);
     const [tags,setTags] = useState(props.card.tags.map((tag) => {return {label:tag,value:tag}}));
 
-    console.log(tags);
+    const saveButtonRef = useRef(null);
 
     /*** Check editing card ***/
     useEffect(() => {
@@ -106,6 +106,12 @@ const CardEditModal = (props) => {
 
     /*** Saving Control ***/
 
+    const enterKeyHandler = (event) => {
+        if (event.key === 'Enter') {
+            saveButtonRef.current.click();
+        }
+    }
+
     const saveHandler = (event) => {
         props.card.name = card.name;
         props.card.description = card.description;
@@ -138,7 +144,7 @@ const CardEditModal = (props) => {
         <React.Fragment>
             {ReactDOM.createPortal(
                 <Draggable disabled={dragDisabled}>
-                    <ModalContainer>
+                    <ModalContainer onKeyDown={enterKeyHandler}>
                         <div
                             style={{
                                 marginTop: "2rem",
@@ -167,6 +173,7 @@ const CardEditModal = (props) => {
                                         marginLeft: "0.1rem",
                                     }}
                                     onClick={saveHandler}
+                                    ref={saveButtonRef}
                                 >
                                     Save
                                 </ModalButton>

@@ -17,3 +17,7 @@ export function getIterableValues(map) {
         }
     };
 }
+
+export function trim(s) {
+    return ( s || '' ).replace( /^\s+|\s+$/g, '' ); 
+}

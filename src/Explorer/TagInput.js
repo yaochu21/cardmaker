@@ -1,6 +1,4 @@
-import { fontSize } from "@mui/system";
 import React, { useState, useRef, useEffect } from "react";
-import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 
 const TagInput = (props) => {
@@ -30,8 +28,8 @@ const TagInput = (props) => {
                 classNamePrefix="select"
                 theme={(theme) => ({
                     ...theme,
-                    borderRadius: "2px",
-                    fontFamily: "Kreon",
+                    borderRadius: "3.5px",
+                    fontFamily: "Open-Sans",
                     colors: {
                         ...theme.colors,
                         primary25: "#e6e6e6",

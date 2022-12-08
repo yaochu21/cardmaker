@@ -9,7 +9,7 @@ import CardList from "./Cards/CardList";
 import CardFilter from "./Explorer/CardFilter";
 import ProjectLoader from "./Explorer/ProjectLoader";
 import TagInput from "./Explorer/TagInput";
-import { getIterableKeys } from "./Utilities/Iterable";
+import { getIterableKeys } from "./Utilities/Util";
 
 function App() {
     /*** Sample Initialization ***/
@@ -28,8 +28,76 @@ function App() {
         sampleDeck[i] = { ...sampleDeck[i], card_id: 9 - i };
     }
 
+    const blankFilter = {
+        plain: "",
+        names: [],
+        tags: [],
+        propertyThreshes: [],
+    };
+
+
     const [activeDeck, setActiveDeck] = useState(sampleDeck);
     const [activeTags, setActiveTags] = useState(["basic"]);
+    const [visibleDeck, setVisibleDeck] = useState(sampleDeck);
+
+    console.log(visibleDeck);
+
+    /*** Filter Handlers ***/
+    const updateFilterHandler = (newFilter) => {
+        console.log("update filter called");
+        console.log(newFilter);
+        let newVisibleDeck = applyFilter(newFilter,activeDeck);
+        setVisibleDeck(newVisibleDeck);
+    }
+
+    const applyFilter = (filter,deck) => {
+        let newDeck = [].concat(deck);
+
+        console.log(newDeck[0]);
+
+        if (filter.tags.length > 0) {
+            newDeck = newDeck.filter((card) => {
+                for (let i = 0; i < filter.tags.length; i++) {
+
+                    let match = false;
+                    for (let j = 0; j < card.tags.length; j++) {
+                        let cardTag = card.tags[j];
+                        let searchTag = filter.tags[i];
+                        if (cardTag.indexOf(searchTag) >= 0) {
+                            match = true;
+                            break;
+                        }
+                    } 
+
+                    if (!match) {
+                        return false;
+                    }
+
+                    // if (card.tags.indexOf(filter.tags[i]) < 0) {
+                    //     return false;
+                    // }
+                }
+                return true;
+            })
+        }
+
+        if (filter.names.length > 0) {
+            newDeck = newDeck.filter((card) => {
+                return card.name.toUpperCase() === filter.names[filter.names.length - 1].toUpperCase() ;
+            })
+        }
+
+        if (filter.plain.length > 0) {
+            newDeck = newDeck.filter((card) => {
+                return card.description.toUpperCase().indexOf(filter.plain.toUpperCase()) > -1
+            })
+        }
+
+        console.log(newDeck)
+        return newDeck;
+    }
+
+    /*** Load Handlers ***/
 
     const loadProjectHandler = (deck) => {
         console.log("load called");
@@ -84,6 +152,8 @@ function App() {
         }
     }
 
+    /*** Deck Management Handlers */
+
     const removeCardsHandler = (cards) => {
         let card_ids = activeDeck.map((card) => {
             return card.card_id;
@@ -124,12 +194,13 @@ function App() {
             />
             <CardList
                 cards={activeDeck}
+                visibleCards={visibleDeck}
                 handleNewCard={addCardHandler}
                 handleCardDelete={removeCardsHandler}
                 handleTagUpdate={updateTagMapHandler}
                 activeTags={activeTags}
             />
-            {/* <CardFilter /> */}
+            <CardFilter updateFilter={updateFilterHandler}/>
             {/* <TagInput /> */}
         </div>
     );

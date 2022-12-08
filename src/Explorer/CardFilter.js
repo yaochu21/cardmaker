@@ -1,28 +1,71 @@
+import { fontFamily } from "@mui/system";
 import React, { useState, useRef, useEffect } from "react";
+import { getIterableKeys, trim } from "../Utilities/Util";
 
 const CardFilter = (props) => {
-    const [inputString, setInputString] = useState("");
-    const [filterElements, setFilterElements] = useState({
+    const blankFilter = {
         plain: "",
         names: [],
         tags: [],
         propertyThreshes: [],
-    });
+    };
+
+    const [inputString, setInputString] = useState("");
 
     const onInputChangeHandler = (event) => {
         const s = event.target.value;
         setInputString(s);
+        parseInputString(s);
+    };
+
+    const clearFilter = () => {
+        props.updateFilter(blankFilter);
+    };
+
+    const parseInputString = (s) => {
+        if (s.length <= 0) {
+            clearFilter();
+            return;
+        }
+
+        let newFilter = { ...blankFilter };
+
+        // first, check for tag separators
+        const inputSemiColSplit = s.split(";");
+
+        for (let i = 0; i < inputSemiColSplit.length; i++) {
+            const e = inputSemiColSplit[i];
+
+            // check for equal sign
+            const elementEqualSplit = e.split("=");
+
+            if (elementEqualSplit.length > 1) {
+                const flag = trim(elementEqualSplit[0]);
+                const val = elementEqualSplit[1];
+
+                if (val.length > 0) {
+                    if (flag === "tag") {
+                        newFilter.tags = [...newFilter.tags, val];
+                    } else if (flag === "name") {
+                        newFilter.names = [...newFilter.names, val];
+                    } else if (flag == "property") {
+
+                    }
+                    continue;
+                }
+            }
+
+            newFilter.plain = e;
+        }
+
+        props.updateFilter(newFilter);
+
     };
 
     const onKeyDownHandler = (event) => {
-        if (event.key === 'Enter') {
-
+        if (event.key === "Enter") {
         }
-    }
-
-    const parseEnteredInput = () => {
-
-    }
+    };
 
     return (
         <input
@@ -31,11 +74,12 @@ const CardFilter = (props) => {
             onKeyDown={onKeyDownHandler}
             style={{
                 height: "40px",
-                width: "160px",
+                width: "20rem",
                 borderStyle: "solid",
-                position: "absolute",
-                top:"40vh",
-                left:"45vw"
+                marginTop: "18rem",
+                marginLeft: "10rem",
+                fontFamily: "Open-Sans",
+                paddingLeft: "8px",
             }}
         ></input>
     );

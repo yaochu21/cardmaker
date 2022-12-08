@@ -106,7 +106,7 @@ const CardList = (props) => {
                 <div className="member" key={Math.random().toString()} onClick={generateCardHandler}>
                     <NewCard/>
                 </div>
-                {props.cards.map((card) => (
+                {props.visibleCards.map((card) => (
                     <div className="member" key={Math.random().toString()}>
                         <CardDisplay
                             isSelected={selectedCards.includes(card)}
