@@ -11,11 +11,11 @@ const SearchBar = styled.input(
         padding-left: 8px;
         outline: none;
         border-style: solid;
-        border-color: #484848;
+        border-color: #787878;
         border-width: 1.5px;
         border-radius: 5px;
         background-color: #f7f7f7;
-        font-size: 12px;
+        font-size: 13px;
 
         &:hover {
             box-shadow: 1.4px 1.4px 4px rgba(148, 148, 148, 0.25);
