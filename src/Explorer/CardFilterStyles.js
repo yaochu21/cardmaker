@@ -3,10 +3,10 @@ import styled, { css } from "styled-components";
 const SearchBar = styled.input(
     (props) => css`
         position: absolute;
-        left: 10rem;
-        top: 20rem;
+        left: 5.8rem;
+        top: 6.5rem;
         height: 2.6rem;
-        width: 20rem;
+        width: 30rem;
         font-family: "Open-Sans";
         padding-left: 8px;
         outline: none;

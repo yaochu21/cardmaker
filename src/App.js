@@ -35,7 +35,6 @@ function App() {
         propertyThreshes: [],
     };
 
-
     const [activeDeck, setActiveDeck] = useState(sampleDeck);
     const [activeTags, setActiveTags] = useState(["basic"]);
     const [visibleDeck, setVisibleDeck] = useState(sampleDeck);
@@ -46,11 +45,11 @@ function App() {
     const updateFilterHandler = (newFilter) => {
         console.log("update filter called");
         console.log(newFilter);
-        let newVisibleDeck = applyFilter(newFilter,activeDeck);
+        let newVisibleDeck = applyFilter(newFilter, activeDeck);
         setVisibleDeck(newVisibleDeck);
-    }
+    };
 
-    const applyFilter = (filter,deck) => {
+    const applyFilter = (filter, deck) => {
         let newDeck = [].concat(deck);
 
         console.log(newDeck[0]);
@@ -58,7 +57,6 @@ function App() {
         if (filter.tags.length > 0) {
             newDeck = newDeck.filter((card) => {
                 for (let i = 0; i < filter.tags.length; i++) {
-
                     let match = false;
                     for (let j = 0; j < card.tags.length; j++) {
                         let cardTag = card.tags[j];
@@ -67,7 +65,7 @@ function App() {
                             match = true;
                             break;
                         }
-                    } 
+                    }
 
                     if (!match) {
                         return false;
@@ -78,24 +76,31 @@ function App() {
                     // }
                 }
                 return true;
-            })
+            });
         }
 
         if (filter.names.length > 0) {
             newDeck = newDeck.filter((card) => {
-                return card.name.toUpperCase() === filter.names[filter.names.length - 1].toUpperCase() ;
-            })
+                return (
+                    card.name.toUpperCase() ===
+                    filter.names[filter.names.length - 1].toUpperCase()
+                );
+            });
         }
 
         if (filter.plain.length > 0) {
             newDeck = newDeck.filter((card) => {
-                return card.description.toUpperCase().indexOf(filter.plain.toUpperCase()) > -1
-            })
+                return (
+                    card.description
+                        .toUpperCase()
+                        .indexOf(filter.plain.toUpperCase()) > -1
+                );
+            });
         }
 
-        console.log(newDeck)
+        console.log(newDeck);
         return newDeck;
-    }
+    };
 
     /*** Load Handlers ***/
 
@@ -140,17 +145,16 @@ function App() {
         for (let i = 0; i < updatedTags.length; i++) {
             if (activeTags.indexOf(updatedTags[i]) > -1) {
                 continue;
-            }
-            else {
+            } else {
                 newEntries.push(updatedTags[i]);
             }
         }
         if (newEntries.length > 0) {
             setActiveTags((prev) => {
                 return prev.concat(newEntries);
-            })
+            });
         }
-    }
+    };
 
     /*** Deck Management Handlers */
 
@@ -192,15 +196,18 @@ function App() {
                 handleLoadProject={loadProjectHandler}
                 getActiveDeck={getActiveDeckHandler}
             />
-            <CardList
-                cards={activeDeck}
-                visibleCards={visibleDeck}
-                handleNewCard={addCardHandler}
-                handleCardDelete={removeCardsHandler}
-                handleTagUpdate={updateTagMapHandler}
-                activeTags={activeTags}
-            />
-            <CardFilter updateFilter={updateFilterHandler}/>
+            <div
+            >
+                <CardFilter updateFilter={updateFilterHandler} />
+                <CardList
+                    cards={activeDeck}
+                    visibleCards={visibleDeck}
+                    handleNewCard={addCardHandler}
+                    handleCardDelete={removeCardsHandler}
+                    handleTagUpdate={updateTagMapHandler}
+                    activeTags={activeTags}
+                />
+            </div>
         </React.Fragment>
     );
 }

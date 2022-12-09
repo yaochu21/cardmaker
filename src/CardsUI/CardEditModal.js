@@ -17,13 +17,17 @@ import {
     ModalInput,
     ModalImage,
 } from "./CardEditModalStyles";
-import TagInput from '../Explorer/TagInput';
+import TagInput from "../Explorer/TagInput";
 
 const CardEditModal = (props) => {
     const [dragDisabled, setDragDisabled] = useState(false);
     const [card, setCard] = useState(props.card);
     const [imageURL, setImageURL] = useState(props.card.image);
-    const [tags,setTags] = useState(props.card.tags.map((tag) => {return {label:tag,value:tag}}));
+    const [tags, setTags] = useState(
+        props.card.tags.map((tag) => {
+            return { label: tag, value: tag };
+        })
+    );
 
     const saveButtonRef = useRef(null);
 
@@ -107,17 +111,19 @@ const CardEditModal = (props) => {
     /*** Saving Control ***/
 
     const enterKeyHandler = (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === "Enter") {
             saveButtonRef.current.click();
         }
-    }
+    };
 
     const saveHandler = (event) => {
         props.card.name = card.name;
         props.card.description = card.description;
         props.card.image = card.url;
         props.card.color = card.color;
-        props.card.tags = tags.map((tagObject) => {return tagObject.label});
+        props.card.tags = tags.map((tagObject) => {
+            return tagObject.label;
+        });
         props.handleTagUpdate(props.card);
     };
 
@@ -145,48 +151,38 @@ const CardEditModal = (props) => {
             {ReactDOM.createPortal(
                 <Draggable disabled={dragDisabled}>
                     <ModalContainer onKeyDown={enterKeyHandler}>
-                        <div
+                        <ModalCardContainer
+                            color={{ r: 243, g: 243, b: 243, a: 255 }}
                             style={{
-                                marginTop: "2rem",
-                                height: "80%",
+                                marginTop: "7%",
                                 width: "12rem",
+                                height: "93%",
+                                borderStyle: "dashed",
                             }}
                         >
-                                <ModalCardContainer
-                                    color={{ r: 243, g: 243, b: 243, a: 255 }}
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        borderStyle: "dashed"
-                                    }}
-                                >
-                                    <TagInput tagColor={card.color} currTags={tags} allTags={props.activeTags} setTags={setTags}/>
-                                </ModalCardContainer>
-                        </div>
-                        <ModalCardContainer
-                            color={card.color}
-                            style={{ width: "18rem", height: "30rem" }}
-                        >
+                            <TagInput
+                                tagColor={card.color}
+                                currTags={tags}
+                                allTags={props.activeTags}
+                                setTags={setTags}
+                            />
+                        </ModalCardContainer>
+                        <ModalCardContainer color={card.color}>
                             <ModalHeader>
                                 <ModalButton
-                                    style={{
-                                        marginLeft: "0.1rem",
-                                    }}
                                     onClick={saveHandler}
                                     ref={saveButtonRef}
+                                    leftMost={true}
                                 >
                                     Save
                                 </ModalButton>
-                                <ModalButton
-                                    style={{
-                                        marginRight: "auto",
-                                        marginLeft: "0.1rem",
-                                    }}
-                                    onClick={saveFileHandler}
-                                >
+                                <ModalButton onClick={saveFileHandler}>
                                     Download
                                 </ModalButton>
-                                <ModalButton onClick={closeModal}>
+                                <ModalButton
+                                    onClick={closeModal}
+                                    rightMost={true}
+                                >
                                     X
                                 </ModalButton>
                             </ModalHeader>
@@ -194,7 +190,6 @@ const CardEditModal = (props) => {
                             <ModalBody>
                                 <CardFieldName>
                                     <ModalInput
-                                        style={{ fontSize: "1.2rem" }}
                                         value={card.name}
                                         autoComplete="off"
                                         autoCapitalize="off"
@@ -234,7 +229,6 @@ const CardEditModal = (props) => {
                                 </CardFieldThumbnail>
                                 <CardFieldDescription>
                                     <ModalInput
-                                        style={{ fontSize: "1.2rem" }}
                                         value={card.description}
                                         autoComplete="off"
                                         autoCapitalize="off"
