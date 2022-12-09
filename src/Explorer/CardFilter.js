@@ -13,6 +13,12 @@ const CardFilter = (props) => {
 
     const [inputString, setInputString] = useState("");
 
+    const onBlurHandler = (event) => {
+        if (inputString.length <= 0) {
+            setInputString()
+        }
+    }
+
     const onInputChangeHandler = (event) => {
         const s = event.target.value;
         setInputString(s);
@@ -71,6 +77,7 @@ const CardFilter = (props) => {
     return (
         <input
             value={inputString}
+            onBlur={onBlurHandler}
             onChange={onInputChangeHandler}
             onKeyDown={onKeyDownHandler}
             className="search"
