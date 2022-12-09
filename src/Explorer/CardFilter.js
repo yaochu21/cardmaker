@@ -1,6 +1,7 @@
 import { fontFamily } from "@mui/system";
 import React, { useState, useRef, useEffect } from "react";
 import { getIterableKeys, trim } from "../Utilities/Util";
+import { SearchBar } from "./CardFilterStyles";
 import "./CardFilter.css";
 
 const CardFilter = (props) => {
@@ -11,11 +12,20 @@ const CardFilter = (props) => {
         propertyThreshes: [],
     };
 
-    const [inputString, setInputString] = useState("");
+    const [inputString, setInputString] = useState("Search");
+    const [isDefault, setIsDefault] = useState(true);
 
     const onBlurHandler = (event) => {
         if (inputString.length <= 0) {
-            setInputString()
+            setInputString("Search")
+            setIsDefault(true);
+        }
+    }
+
+    const onFocusHandler = (event) => {
+        if (isDefault) {
+            setInputString("");
+            setIsDefault(false);
         }
     }
 
@@ -75,33 +85,15 @@ const CardFilter = (props) => {
     };
 
     return (
-        <input
+        <SearchBar
+            isDefault={isDefault}
             value={inputString}
             onBlur={onBlurHandler}
+            onFocus={onFocusHandler}
             onChange={onInputChangeHandler}
             onKeyDown={onKeyDownHandler}
-            className="search"
-        ></input>
+        ></SearchBar>
     );
 };
-
-/*
-    Collapsed search bar ("[name:strike][tag:attack][tag:blue][property:c>10]")
-    Plain text search in collapsed (simple) search bar matches for tags and names
-
-    Implementation Sequence:
-    1. Plain text search
-    2. Name search
-    3. Tag Search
-    4. Prop Search
-    5. OR/AND (Default is AND)
-
-*/
-
-// a style component for tags (square block)
-// a style component for properties
-// tags are static
-// properties have values
-// names are strings
 
 export default CardFilter;
