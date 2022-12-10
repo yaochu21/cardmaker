@@ -22,8 +22,6 @@ function App() {
         color: { r: 233, g: 233, b: 233, a: 1 },
     });
 
-
-
     const [activeDeck, setActiveDeck] = useState(sampleDeck);
     const [activeTags, setActiveTags] = useState(["basic"]);
     const [visibleDeck, setVisibleDeck] = useState(sampleDeck);

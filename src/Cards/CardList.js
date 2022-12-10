@@ -11,8 +11,8 @@ const CardList = (props) => {
     const [selectedCards, setSelectedCards] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
-    const [isCardModalOpen, setIsCardModalOpen] = useState(false);
-    const [editingCard, setEditingCard] = useState(null);
+    const [isCardModalOpen, setIsCardModalOpen] = useState(true);
+    const [editingCard, setEditingCard] = useState(props.cards[0]);
 
     /*** Card Handlers ***/
 
