@@ -12,27 +12,17 @@ import styled, { css } from "styled-components";
 
 function App() {
     /*** Sample Initialization ***/
-    let sampleDeck = Array(10).fill({
+    let sampleDeck = Array(1).fill({
         card_id: 1,
-        name: "Strike",
-        description: "Deal 5 damage",
+        name: "Your New Card",
+        description: "Your Card Description",
         tags: ["basic"],
         fields: { cost: 5 },
         image: null,
         color: { r: 233, g: 233, b: 233, a: 1 },
     });
 
-    let i = 0;
-    for (i = 0; i < 10; i++) {
-        sampleDeck[i] = { ...sampleDeck[i], card_id: 9 - i };
-    }
 
-    const blankFilter = {
-        plain: "",
-        names: [],
-        tags: [],
-        propertyThreshes: [],
-    };
 
     const [activeDeck, setActiveDeck] = useState(sampleDeck);
     const [activeTags, setActiveTags] = useState(["basic"]);

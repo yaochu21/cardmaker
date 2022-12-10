@@ -55,7 +55,7 @@ const CardDisplay = (props) => {
         >
             <CardFieldName>{props.card.name}</CardFieldName>
             <CardFieldThumbnail>
-                <img src={props.card.image} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top"}}></img>  
+                <img src={props.card.image} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",fontSize:"10px"}}></img>  
             </CardFieldThumbnail>
             <CardFieldDescription>
                 {props.card.description}

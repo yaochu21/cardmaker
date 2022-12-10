@@ -17,6 +17,7 @@ import {
     ModalBody,
     ModalInput,
     ModalImage,
+    ModalInputButtonContainer,
 } from "./CardEditModalStyles";
 import TagInput from "../Explorer/TagInput";
 
@@ -92,6 +93,12 @@ const CardEditModal = (props) => {
 
     /*** Image Control ***/
 
+    const imageInputRef = useRef();
+
+    const onChooseImageClickHandler = (event) => {
+        imageInputRef.current.click();
+    };
+
     const imageChangeHandler = (event) => {
         var file = event.target.files[0];
         console.log(file);
@@ -161,9 +168,6 @@ const CardEditModal = (props) => {
                                 borderStyle: "dashed",
                             }}
                         >
-                            {/* <ModalLabel>
-                                Tags
-                            </ModalLabel> */}
                             <TagInput
                                 tagColor={card.color}
                                 currTags={tags}
@@ -207,29 +211,26 @@ const CardEditModal = (props) => {
                                     {card.image && (
                                         <ModalImage alt="none" src={imageURL} />
                                     )}
-                                    <input
-                                        type="file"
-                                        id="thumbnail-upload"
-                                        onChange={imageChangeHandler}
-                                        style={{
-                                            color: "transparent",
-                                            position: "absolute",
-                                            top: "18rem",
-                                            left: "17.5rem",
-                                            fontSize: "10px",
-                                        }}
-                                    />
-                                    <button
-                                        style={{
-                                            position: "absolute",
-                                            top: "18rem",
-                                            left: "22rem",
-                                            fontSize: "10px",
-                                        }}
-                                        onClick={imageClearHandler}
-                                    >
-                                        Clear
-                                    </button>
+                                    <ModalInputButtonContainer>
+                                        <input
+                                            type="file"
+                                            onChange={imageChangeHandler}
+                                            ref={imageInputRef}
+                                            style={{
+                                                opacity: 0,
+                                                position: "absolute",
+                                                top: "100vh",
+                                            }}
+                                        />
+                                        <button
+                                            onClick={onChooseImageClickHandler}
+                                        >
+                                            Choose Image
+                                        </button>
+                                        <button onClick={imageClearHandler}>
+                                            Clear
+                                        </button>
+                                    </ModalInputButtonContainer>
                                 </CardFieldThumbnail>
                                 <CardFieldDescription>
                                     <ModalInput

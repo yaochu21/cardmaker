@@ -7,7 +7,7 @@ const ModalContainer = styled.div`
     flex-direction: row;
     width: 31rem;
     height: 30rem;
-    left: 6rem;
+    left: 7.5rem;
     top: 11.8rem;
 `;
 
@@ -33,7 +33,7 @@ const ModalCardContainer = styled.div(
 const ModalLabel = styled.div`
     font-size: 0.8rem;
     font-family: "Open-Sans";
-`
+`;
 
 const ModalHeader = styled.div`
     width: 100%;
@@ -52,6 +52,20 @@ const ModalBody = styled.div`
     margin-top: 6%;
 `;
 
+const ModalInputButtonContainer = styled.div`
+    position: absolute;
+    top: 18.15rem;
+    left: 17.7rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+
+    & > button {
+        height: 1rem;
+        font-size: 0.6rem;
+    }
+`;
+
 const ModalButton = styled.button(
     (props) => css`
         align-items: center;
@@ -62,10 +76,12 @@ const ModalButton = styled.button(
         font-family: "Open-Sans";
         padding: none;
 
-        ${props.leftMost && css`
+        ${props.leftMost &&
+        css`
             margin-left: 0.3rem;
         `}
-        ${props.rightMost && css`
+        ${props.rightMost &&
+        css`
             margin-left: auto;
             margin-right: 0.2rem;
         `}
@@ -116,6 +132,7 @@ const ModalImage = styled.div(
 export {
     ModalContainer,
     ModalCardContainer,
+    ModalInputButtonContainer,
     ModalLabel,
     ModalHeader,
     ModalButton,
