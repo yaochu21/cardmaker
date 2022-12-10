@@ -53,7 +53,7 @@ const CardContainer = styled.div(
         }
 
         &:hover {
-            background-color: rgba(${props.color.r + 10}, ${props.color.g + 10}, ${props.color.b + 10}, ${props.color.a});
+            background-color: rgba(${props.color.r + 8}, ${props.color.g + 8}, ${props.color.b + 8}, ${props.color.a});
             box-shadow: 5.2px 5.2px 8px rgba(153, 153, 153, 0.25);
         }
 
