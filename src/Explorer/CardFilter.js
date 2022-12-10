@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import Draggable, { DraggableCore } from "react-draggable";
 import { getIterableKeys, trim } from "../Utilities/Util";
 import { SearchBar } from "./CardFilterStyles";
-import "./CardFilter.css";
 
 const CardFilter = (props) => {
     const blankFilter = {

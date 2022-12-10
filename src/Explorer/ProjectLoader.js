@@ -1,10 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import JSzip from "jszip";
 import { saveAs } from 'file-saver';
+import './ProjectLoader.css';
 
 function ProjectLoader(props) {
     const [newCards, setNewCards] = useState([]);
     const [newImageURLMap, setNewImageURLMap] = useState(new Map());
+
+    const loadDeckInputRef = useRef();
+    const loadThumbnailInputRef = useRef();
 
     useEffect(() => {
         let deck = [].concat(newCards);
@@ -78,7 +82,7 @@ function ProjectLoader(props) {
         reader.readAsText(file);
     };
 
-    const retrieveActiveDeck = async (event) => {
+    const onRetrieveDeckButtonClicked = async (event) => {
         const deck = props.getActiveDeck();
         const deckJson = JSON.stringify(deck);
         const names = [];
@@ -113,11 +117,25 @@ function ProjectLoader(props) {
         saveAs(zipObject,"deck.zip");
     }
 
+    const onLoadDeckButtonClicked = (event) => {
+        loadDeckInputRef.current.click();
+    }
+
+    const onLoadThumbnailButtonClick = (event) => {
+        loadThumbnailInputRef.current.click();
+    }
+
     return (
-        <div style={{ position: "absolute", top: "0%", left: "0%" }}>
-            <input type="file" onChange={loadJson} />
-            <input type="file" onChange={loadThumbnails} />
-            <button onClick={retrieveActiveDeck}>Get Active Deck</button>
+        <div className="explorer-container">
+            <input type="file" id="file" onChange={loadJson} ref={loadDeckInputRef} className="hidden"/>
+            <input type="file" id="file" onChange={loadThumbnails} ref={loadThumbnailInputRef} className="hidden"/>
+            <div className="explorer-button-control">
+                <button onClick={onLoadDeckButtonClicked} >Load Deck Json</button>
+                <div className="button-divider">|</div>
+                <button onClick={onLoadThumbnailButtonClick} >Load Deck Thumbnails</button>
+                <div className="button-divider">|</div>
+                <button onClick={onRetrieveDeckButtonClicked} >Download Deck</button>
+            </div>
         </div>
     );
 }

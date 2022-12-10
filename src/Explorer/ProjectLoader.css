@@ -1,0 +1,42 @@
+#file {
+    position: absolute;
+    top:100%;
+    opacity: 0;
+}
+
+.explorer-container {
+    color: transparent;
+    font-size: 5px;
+    width: 100%;
+}
+
+.explorer-button-control {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    justify-items: center;
+    align-items: center;
+    gap: 5px;
+    /* font-family: "Open-Sans"; */
+}
+
+.explorer-button-control > button {
+    border-color: transparent;
+    border-radius: 5px;
+    background-color: transparent;
+    box-shadow: none;
+    font-family: "Open-Sans";
+    /* background-color: rgb(235,235,235); */
+}
+
+.explorer-button-control > button:hover {
+    opacity: 0.5;
+    /* background-color: rgb(220,220,220); */
+}
+
+.explorer-button-control > .button-divider {
+    font-size: 1rem;
+    color: black;
+    margin-bottom: 0.2rem;
+}

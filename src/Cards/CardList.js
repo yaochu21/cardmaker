@@ -34,7 +34,7 @@ const CardList = (props) => {
 
     const generateCardHandler = (event) => {
         let newID = props.cards[0].card_id + 1;
-        console.log("generating new card, id: "+newID);
+        console.log("generating new card, id: " + newID);
         let newCard = {
             card_id: newID,
             name: "New Card",
@@ -77,7 +77,7 @@ const CardList = (props) => {
     };
 
     const overlayClickHandler = (event) => {
-        //console.log("overlay clicked");
+        console.log("overlay clicked");
         setSelectedCards([]);
         setIsMenuOpen(false);
     };
@@ -92,7 +92,7 @@ const CardList = (props) => {
         } else {
             console.log("no card selected");
         }
-        return
+        return;
     };
 
     const closeCardModalHandler = (event) => {
@@ -101,10 +101,15 @@ const CardList = (props) => {
     };
 
     return (
-        <Overlay onClick={overlayClickHandler}>
+        <React.Fragment>
+            <Overlay onClick={overlayClickHandler}></Overlay>
             <ul className="card-list">
-                <div className="member" key={Math.random().toString()} onClick={generateCardHandler}>
-                    <NewCard/>
+                <div
+                    className="member"
+                    key={Math.random().toString()}
+                    onClick={generateCardHandler}
+                >
+                    <NewCard />
                 </div>
                 {props.visibleCards.map((card) => (
                     <div className="member" key={Math.random().toString()}>
@@ -134,7 +139,7 @@ const CardList = (props) => {
                     closeCardModal={closeCardModalHandler}
                 />
             ) : null}
-        </Overlay>
+        </React.Fragment>
     );
 };
 

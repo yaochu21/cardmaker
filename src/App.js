@@ -8,8 +8,7 @@ import React, {
 import CardList from "./Cards/CardList";
 import CardFilter from "./Explorer/CardFilter";
 import ProjectLoader from "./Explorer/ProjectLoader";
-import TagInput from "./Explorer/TagInput";
-import { getIterableKeys } from "./Utilities/Util";
+import styled, { css } from "styled-components";
 
 function App() {
     /*** Sample Initialization ***/
@@ -192,13 +191,14 @@ function App() {
 
     return (
         <React.Fragment>
-            <ProjectLoader
-                handleLoadProject={loadProjectHandler}
-                getActiveDeck={getActiveDeckHandler}
-            />
-            <div
-            >
-                <CardFilter updateFilter={updateFilterHandler} />
+            <PageContainer>
+                <ExplorerContainer>
+                    <ProjectLoader
+                        handleLoadProject={loadProjectHandler}
+                        getActiveDeck={getActiveDeckHandler}
+                    />
+                    <CardFilter updateFilter={updateFilterHandler} />
+                </ExplorerContainer>
                 <CardList
                     cards={activeDeck}
                     visibleCards={visibleDeck}
@@ -207,9 +207,25 @@ function App() {
                     handleTagUpdate={updateTagMapHandler}
                     activeTags={activeTags}
                 />
-            </div>
+            </PageContainer>
         </React.Fragment>
     );
 }
+
+const PageContainer = styled.div(css`
+    margin-left: 10rem;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+`);
+
+const ExplorerContainer = styled.div(css`
+    margin-top: 0.9rem;
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+`);
 
 export default App;

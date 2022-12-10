@@ -1,7 +1,7 @@
 .card-list {
-    position: absolute;
+    /* position: absolute;
     left: 38rem;
-    top: 3rem;
+    top: 3rem; */
     width: 60vw;
     margin-bottom: 1rem;
     grid-auto-flow: column;
