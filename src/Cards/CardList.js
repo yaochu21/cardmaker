@@ -15,6 +15,15 @@ const CardList = (props) => {
     const [editingCard, setEditingCard] = useState(props.cards[0]);
 
     /*** Card Handlers ***/
+    useEffect(
+        () => {
+            if (editingCard != null && props.cards.indexOf(editingCard) < 0) {
+                setEditingCard([]);
+                setIsCardModalOpen(false);
+                setSelectedCards([]);
+            }
+        },[props.cards]
+    )
 
     const cardSelectHander = (card, shift, hack = false) => {
         setSelectedCards((prevState) => {
@@ -33,7 +42,7 @@ const CardList = (props) => {
     };
 
     const generateCardHandler = (event) => {
-        let newID = props.cards[0].card_id + 1;
+        let newID = props.cards.length > 0 ? props.cards[0].card_id + 1 : 0;
         console.log("generating new card, id: " + newID);
         let newCard = {
             card_id: newID,
@@ -127,6 +136,7 @@ const CardList = (props) => {
                 <ContextMenu
                     x={menuCoord.x}
                     y={menuCoord.y}
+                    closeMenu={closeContextMenu}
                     openCardModal={openCardModalHandler}
                     deleteCard={cardDeleteSelectedHandler}
                 />

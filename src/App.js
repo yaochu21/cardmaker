@@ -22,18 +22,38 @@ function App() {
         color: { r: 233, g: 233, b: 233, a: 1 },
     });
 
+    const blankFilter = {
+        plain: "",
+        names: [],
+        tags: [],
+        propertyThreshes: [],
+    };
+
     const [activeDeck, setActiveDeck] = useState(sampleDeck);
     const [activeTags, setActiveTags] = useState(["basic"]);
     const [visibleDeck, setVisibleDeck] = useState(sampleDeck);
+    const [currFilter, setCurrFilter] = useState(blankFilter);
 
     console.log(visibleDeck);
 
+    useEffect(() => {
+        loadTags(activeDeck);
+        updateFilterHandler(currFilter,activeDeck);
+    },[activeDeck])
+
     /*** Filter Handlers ***/
-    const updateFilterHandler = (newFilter) => {
+    const updateFilterHandler = (newFilter, deck = null) => {
         console.log("update filter called");
         console.log(newFilter);
-        let newVisibleDeck = applyFilter(newFilter, activeDeck);
+        let newVisibleDeck;
+        if (deck != null) {
+            newVisibleDeck = applyFilter(newFilter, deck);
+        }
+        else {
+            newVisibleDeck = applyFilter(newFilter, activeDeck);
+        }
         setVisibleDeck(newVisibleDeck);
+        setCurrFilter(newFilter);
     };
 
     const applyFilter = (filter, deck) => {
@@ -92,33 +112,31 @@ function App() {
     /*** Load Handlers ***/
 
     const loadProjectHandler = (deck) => {
-        console.log("load called");
+        console.log("load called, new deck:");
+        console.log(deck);
         for (const card in activeDeck) {
             if (card.image != null) {
                 URL.revokeObjectURL(card.image);
             }
         }
         setActiveDeck(deck);
+        updateFilterHandler(blankFilter,deck);
         loadTags(deck);
     };
 
     const loadTags = (deck) => {
         const l = deck.length;
-        let allTagsMap = new Map();
+        let allTags = [];
         for (let i = 0; i < l; i++) {
             let cardTags = deck[i].tags;
             for (let j = 0; j < cardTags.length; j++) {
-                if (allTagsMap.has(cardTags[j])) {
-                    allTagsMap.set(
-                        cardTags[j],
-                        allTagsMap.get(cardTags[j]) + 1
-                    );
-                } else {
-                    allTagsMap.set(cardTags[j], 1);
+                if (allTags.indexOf(cardTags[j]) >= 0) {
+                    continue;
                 }
+                allTags.push(cardTags[j]);
             }
         }
-        setActiveTags(allTagsMap);
+        setActiveTags(allTags);
     };
 
     const getActiveDeckHandler = () => {

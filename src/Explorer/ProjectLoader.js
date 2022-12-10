@@ -74,7 +74,9 @@ function ProjectLoader(props) {
             "loadend",
             () => {
                 const cards = JSON.parse(reader.result);
-                console.log(cards);
+                for (let i = 0; i < cards.length; i++) {
+                    cards[i].image = null;
+                }
                 setNewCards(cards);
             },
             false

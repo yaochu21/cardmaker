@@ -7,12 +7,14 @@ const ContextMenu = (props) => {
     const contextMenuEditHandler = (event) => {
         event.stopPropagation();
         event.preventDefault();
+        props.closeMenu();
         props.openCardModal();
     };
 
     const contextMenuDeleteHandler = (event) => {
         event.stopPropagation();
         event.preventDefault();
+        props.closeMenu();
         props.deleteCard();
     };
 

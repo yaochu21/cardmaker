@@ -41,7 +41,7 @@ const CardEditModal = (props) => {
             setCard(props.card);
             setImageURL(props.card.image);
         }
-    });
+    },[props.card]);
 
     /*** Drag Control ***/
 
