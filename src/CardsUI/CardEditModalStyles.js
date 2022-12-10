@@ -30,6 +30,11 @@ const ModalCardContainer = styled.div(
     `
 );
 
+const ModalLabel = styled.div`
+    font-size: 0.8rem;
+    font-family: "Open-Sans";
+`
+
 const ModalHeader = styled.div`
     width: 100%;
     height: 7%;
@@ -111,6 +116,7 @@ const ModalImage = styled.div(
 export {
     ModalContainer,
     ModalCardContainer,
+    ModalLabel,
     ModalHeader,
     ModalButton,
     ModalBody,

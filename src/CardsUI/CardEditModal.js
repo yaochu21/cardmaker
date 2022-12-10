@@ -11,6 +11,7 @@ import {
 import {
     ModalContainer,
     ModalCardContainer,
+    ModalLabel,
     ModalHeader,
     ModalButton,
     ModalBody,
@@ -160,6 +161,9 @@ const CardEditModal = (props) => {
                                 borderStyle: "dashed",
                             }}
                         >
+                            {/* <ModalLabel>
+                                Tags
+                            </ModalLabel> */}
                             <TagInput
                                 tagColor={card.color}
                                 currTags={tags}
