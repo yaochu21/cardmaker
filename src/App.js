@@ -8,8 +8,7 @@ import React, {
 import CardList from "./Cards/CardList";
 import CardFilter from "./Explorer/CardFilter";
 import ProjectLoader from "./Explorer/ProjectLoader";
-import TagInput from "./Explorer/TagInput";
-import { getIterableKeys } from "./Utilities/Util";
+import styled, { css } from "styled-components";
 
 function App() {
     /*** Sample Initialization ***/
@@ -35,7 +34,6 @@ function App() {
         propertyThreshes: [],
     };
 
-
     const [activeDeck, setActiveDeck] = useState(sampleDeck);
     const [activeTags, setActiveTags] = useState(["basic"]);
     const [visibleDeck, setVisibleDeck] = useState(sampleDeck);
@@ -46,11 +44,11 @@ function App() {
     const updateFilterHandler = (newFilter) => {
         console.log("update filter called");
         console.log(newFilter);
-        let newVisibleDeck = applyFilter(newFilter,activeDeck);
+        let newVisibleDeck = applyFilter(newFilter, activeDeck);
         setVisibleDeck(newVisibleDeck);
-    }
+    };
 
-    const applyFilter = (filter,deck) => {
+    const applyFilter = (filter, deck) => {
         let newDeck = [].concat(deck);
 
         console.log(newDeck[0]);
@@ -58,7 +56,6 @@ function App() {
         if (filter.tags.length > 0) {
             newDeck = newDeck.filter((card) => {
                 for (let i = 0; i < filter.tags.length; i++) {
-
                     let match = false;
                     for (let j = 0; j < card.tags.length; j++) {
                         let cardTag = card.tags[j];
@@ -67,7 +64,7 @@ function App() {
                             match = true;
                             break;
                         }
-                    } 
+                    }
 
                     if (!match) {
                         return false;
@@ -78,24 +75,31 @@ function App() {
                     // }
                 }
                 return true;
-            })
+            });
         }
 
         if (filter.names.length > 0) {
             newDeck = newDeck.filter((card) => {
-                return card.name.toUpperCase() === filter.names[filter.names.length - 1].toUpperCase() ;
-            })
+                return (
+                    card.name.toUpperCase() ===
+                    filter.names[filter.names.length - 1].toUpperCase()
+                );
+            });
         }
 
         if (filter.plain.length > 0) {
             newDeck = newDeck.filter((card) => {
-                return card.description.toUpperCase().indexOf(filter.plain.toUpperCase()) > -1
-            })
+                return (
+                    card.description
+                        .toUpperCase()
+                        .indexOf(filter.plain.toUpperCase()) > -1
+                );
+            });
         }
 
-        console.log(newDeck)
+        console.log(newDeck);
         return newDeck;
-    }
+    };
 
     /*** Load Handlers ***/
 
@@ -140,17 +144,16 @@ function App() {
         for (let i = 0; i < updatedTags.length; i++) {
             if (activeTags.indexOf(updatedTags[i]) > -1) {
                 continue;
-            }
-            else {
+            } else {
                 newEntries.push(updatedTags[i]);
             }
         }
         if (newEntries.length > 0) {
             setActiveTags((prev) => {
                 return prev.concat(newEntries);
-            })
+            });
         }
-    }
+    };
 
     /*** Deck Management Handlers */
 
@@ -188,21 +191,41 @@ function App() {
 
     return (
         <React.Fragment>
-            <ProjectLoader
-                handleLoadProject={loadProjectHandler}
-                getActiveDeck={getActiveDeckHandler}
-            />
-            <CardList
-                cards={activeDeck}
-                visibleCards={visibleDeck}
-                handleNewCard={addCardHandler}
-                handleCardDelete={removeCardsHandler}
-                handleTagUpdate={updateTagMapHandler}
-                activeTags={activeTags}
-            />
-            <CardFilter updateFilter={updateFilterHandler}/>
+            <PageContainer>
+                <ExplorerContainer>
+                    <ProjectLoader
+                        handleLoadProject={loadProjectHandler}
+                        getActiveDeck={getActiveDeckHandler}
+                    />
+                    <CardFilter updateFilter={updateFilterHandler} />
+                </ExplorerContainer>
+                <CardList
+                    cards={activeDeck}
+                    visibleCards={visibleDeck}
+                    handleNewCard={addCardHandler}
+                    handleCardDelete={removeCardsHandler}
+                    handleTagUpdate={updateTagMapHandler}
+                    activeTags={activeTags}
+                />
+            </PageContainer>
         </React.Fragment>
     );
 }
+
+const PageContainer = styled.div(css`
+    margin-left: 10rem;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+`);
+
+const ExplorerContainer = styled.div(css`
+    margin-top: 0.9rem;
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+`);
 
 export default App;

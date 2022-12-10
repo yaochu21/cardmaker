@@ -2,11 +2,8 @@ import styled, { css } from "styled-components";
 
 const SearchBar = styled.input(
     (props) => css`
-        position: absolute;
-        left: 10rem;
-        top: 20rem;
         height: 2.6rem;
-        width: 20rem;
+        width: 100%;
         font-family: "Open-Sans";
         padding-left: 8px;
         outline: none;

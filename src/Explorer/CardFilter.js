@@ -1,8 +1,8 @@
 import { fontFamily } from "@mui/system";
 import React, { useState, useRef, useEffect } from "react";
+import Draggable, { DraggableCore } from "react-draggable";
 import { getIterableKeys, trim } from "../Utilities/Util";
 import { SearchBar } from "./CardFilterStyles";
-import "./CardFilter.css";
 
 const CardFilter = (props) => {
     const blankFilter = {
@@ -17,17 +17,17 @@ const CardFilter = (props) => {
 
     const onBlurHandler = (event) => {
         if (inputString.length <= 0) {
-            setInputString("Search")
+            setInputString("Search");
             setIsDefault(true);
         }
-    }
+    };
 
     const onFocusHandler = (event) => {
         if (isDefault) {
             setInputString("");
             setIsDefault(false);
         }
-    }
+    };
 
     const onInputChangeHandler = (event) => {
         const s = event.target.value;
@@ -66,7 +66,6 @@ const CardFilter = (props) => {
                     } else if (flag === "name") {
                         newFilter.names = [...newFilter.names, val];
                     } else if (flag == "property") {
-
                     }
                     continue;
                 }
@@ -76,7 +75,6 @@ const CardFilter = (props) => {
         }
 
         props.updateFilter(newFilter);
-
     };
 
     const onKeyDownHandler = (event) => {
@@ -85,14 +83,16 @@ const CardFilter = (props) => {
     };
 
     return (
-        <SearchBar
-            isDefault={isDefault}
-            value={inputString}
-            onBlur={onBlurHandler}
-            onFocus={onFocusHandler}
-            onChange={onInputChangeHandler}
-            onKeyDown={onKeyDownHandler}
-        ></SearchBar>
+        // <Draggable defaultPosition={{x:0,y:0}}>
+            <SearchBar
+                isDefault={isDefault}
+                value={inputString}
+                onBlur={onBlurHandler}
+                onFocus={onFocusHandler}
+                onChange={onInputChangeHandler}
+                onKeyDown={onKeyDownHandler}
+            ></SearchBar>
+        // {/* </Draggable> */}
     );
 };
 
