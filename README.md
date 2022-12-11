@@ -9,6 +9,6 @@
 
 Click 'Download Deck', and unzip.
 
-## Loading:
+### Loading:
 
 Click 'LoadDeckJson', and select the json file in the previously unzipped project folder. Click 'LoadDeckThumbnails' and select the 'art' folder in the previously unzipped project folder.
