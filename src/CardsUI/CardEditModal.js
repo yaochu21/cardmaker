@@ -101,15 +101,20 @@ const CardEditModal = (props) => {
 
     const imageChangeHandler = (event) => {
         var file = event.target.files[0];
-        console.log(file);
         var url = URL.createObjectURL(file);
+        
+        event.target.value = null;
+        URL.revokeObjectURL(imageURL);
+        
         setImageURL(url);
         setCard((prevState) => {
             return { ...prevState, image: url };
         });
+        console.log("new image url: "+url);
     };
 
     const imageClearHandler = (event) => {
+        URL.revokeObjectURL(imageURL);
         setImageURL(null);
         setCard((prevState) => {
             return { ...prevState, image: null };
