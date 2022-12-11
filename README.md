@@ -3,7 +3,11 @@
 
 ### Editing:
 
+![Editing Demo](/demos/1.gif)
+
 ### Searching & Filtering:
+
+![Filtering Demo](/demos/2.gif)
 
 ### Saving:
 
