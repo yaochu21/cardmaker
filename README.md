@@ -22,4 +22,4 @@ Unzip the downloaded project folder. Click 'LoadDeckJson', and select the json f
 
 ### Upcoming Features:
 
-Bulk editing, drag selecting, duplicating, multiple edit windows, multiple decks, optimizations.
+Bulk editing, drag selecting, duplicating, multiple edit windows, multiple decks.
