@@ -127,7 +127,8 @@ const CardEditModal = (props) => {
     const saveHandler = (event) => {
         props.card.name = card.name;
         props.card.description = card.description;
-        props.card.image = card.url;
+        props.card.image = imageURL;
+        console.log(imageURL);
         props.card.color = card.color;
         props.card.tags = tags.map((tagObject) => {
             return tagObject.label;

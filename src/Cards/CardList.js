@@ -25,6 +25,8 @@ const CardList = (props) => {
         },[props.cards]
     )
 
+    console.log("rerendered");
+
     const cardSelectHander = (card, shift, hack = false) => {
         setSelectedCards((prevState) => {
             var index = prevState.indexOf(card);
