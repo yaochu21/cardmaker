@@ -20,6 +20,6 @@ Click 'Download Deck' and unzip.
 
 Unzip the downloaded project folder. Click 'LoadDeckJson', and select the json file. Click 'LoadDeckThumbnails' and select the 'art' folder.
 
-### Upcoming Features:
+### Planned Features:
 
-Bulk editing, drag selecting, duplicating, multiple edit windows, multiple decks.
+Bulk editing, drag selecting, duplicating, properties, improved card displays, multiple edit windows, multiple decks.
