@@ -1,2 +1,2 @@
 # Cardmaker
-(In development) A deck organization helper for card game designers.
+(In development) A light deck organization helper for card game designers.
