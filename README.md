@@ -1,5 +1,5 @@
 # Cardmaker
-(In development) A lightweight deck organization helper for card game designers.
+(In development) A lightweight deck-organization helper for card-game designers created with React.
 
 ### Editing:
 
@@ -16,3 +16,7 @@ Click 'Download Deck' and unzip.
 ### Loading:
 
 Unzip the downloaded project folder. Click 'LoadDeckJson', and select the json file. Click 'LoadDeckThumbnails' and select the 'art' folder.
+
+### Upcoming Features:
+
+Bulk editing, drag selecting, duplicating, multiple edit windows, and optimizations.
