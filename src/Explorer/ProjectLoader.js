@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import JSzip from "jszip";
 import { saveAs } from 'file-saver';
+import { useSelector } from "react-redux";
 import './ProjectLoader.css';
 
 function ProjectLoader(props) {
@@ -9,6 +10,8 @@ function ProjectLoader(props) {
 
     const loadDeckInputRef = useRef();
     const loadThumbnailInputRef = useRef();
+
+    const currDeck = useSelector(state => state.deckData.deck);
 
     useEffect(() => {
         let deck = [].concat(newCards);
@@ -85,7 +88,7 @@ function ProjectLoader(props) {
     };
 
     const onRetrieveDeckButtonClicked = async (event) => {
-        const deck = props.getActiveDeck();
+        const deck = currDeck;
         const deckJson = JSON.stringify(deck);
         const names = [];
 

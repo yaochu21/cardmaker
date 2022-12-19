@@ -1,29 +1,49 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import {useSelector} from 'react-redux';
 import NewCard from "./NewCard";
 import CardDisplay from "./CardDisplay";
-import ContextMenu from "../CardsUI/ContextMenu";
-import CardEditModal from "../CardsUI/CardEditModal";
+import ContextMenu from "../CardEditing/ContextMenu";
+import CardEditModal from "../CardEditing/CardEditModal";
 import "./CardList.css";
+import deckDataSlice from "../Store/deckDataSlice";
+
 
 const CardList = (props) => {
     /*** State Initialization ***/
+    const visibleCards = useSelector(state => state.deckData.visibleDeck);
+    const allCards = useSelector(state => state.deckData.deck);
+    const nextCardID = useSelector(state => state.deckData.nextID);
+
     const [selectedCards, setSelectedCards] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
     const [isCardModalOpen, setIsCardModalOpen] = useState(true);
-    const [editingCard, setEditingCard] = useState(props.cards[0]);
+    const [editingCard, setEditingCard] = useState(allCards[0]);
+
+    const [editingCardID, setEditingCardID] = useState(0);
 
     /*** Card Handlers ***/
     useEffect(
         () => {
-            if (editingCard != null && props.cards.indexOf(editingCard) < 0) {
-                setEditingCard([]);
+            console.log("card list use effect")
+            let c = allCards.find((card) => card.card_id === editingCardID);
+            if (c === undefined) {
                 setIsCardModalOpen(false);
+                setEditingCardID(-1);
                 setSelectedCards([]);
             }
-        },[props.cards]
+        },[allCards]
     )
+    console.log("isCardModalOpen:"+isCardModalOpen)
+    
+    // let c = allCards.find((card) => card.card_id === editingCardID);
+    // if (c === undefined) {
+    //     setIsCardModalOpen(false);
+    //     setEditingCardID(-1);
+    //     setSelectedCards([]);
+    // }
+    // let modalVisibleControl = !(c === undefined);
 
     console.log("rerendered");
 
@@ -44,7 +64,9 @@ const CardList = (props) => {
     };
 
     const generateCardHandler = (event) => {
-        let newID = props.cards.length > 0 ? props.cards[0].card_id + 1 : 0;
+        // let newID = props.cards.length > 0 ? props.cards[0].card_id + 1 : 0;
+        let newID = nextCardID;
+
         console.log("generating new card, id: " + newID);
         let newCard = {
             card_id: newID,
@@ -99,6 +121,7 @@ const CardList = (props) => {
         console.log("In openCardModalHandler");
         if (selectedCards.length > 0) {
             setEditingCard(selectedCards[selectedCards.length - 1]);
+            setEditingCardID(selectedCards[selectedCards.length - 1].card_id);
             setIsCardModalOpen(true);
         } else {
             console.log("no card selected");
@@ -109,6 +132,7 @@ const CardList = (props) => {
     const closeCardModalHandler = (event) => {
         setIsCardModalOpen(false);
         setEditingCard(null);
+        setEditingCardID(-1);
     };
 
     return (
@@ -122,7 +146,7 @@ const CardList = (props) => {
                 >
                     <NewCard />
                 </div>
-                {props.visibleCards.map((card) => (
+                {visibleCards.map((card) => (
                     <div className="member" key={Math.random().toString()}>
                         <CardDisplay
                             isSelected={selectedCards.includes(card)}
@@ -146,8 +170,7 @@ const CardList = (props) => {
             {isCardModalOpen ? (
                 <CardEditModal
                     card={editingCard}
-                    activeTags={props.activeTags}
-                    handleTagUpdate={props.handleTagUpdate}
+                    card_id={editingCardID}
                     closeCardModal={closeCardModalHandler}
                 />
             ) : null}

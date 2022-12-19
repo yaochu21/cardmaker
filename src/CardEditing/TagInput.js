@@ -1,9 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
 import CreatableSelect from "react-select/creatable";
 
 const TagInput = (props) => {
-    const [selectedOptions, setSelectedOptions] = useState("");
-
     const formatCreateLabel = (input) => {
         return `${input}`;
     };
@@ -49,7 +46,7 @@ const TagInput = (props) => {
                             borderColor: state.isFocused ? "inherit" : "inherit",
                             outline: "none",
                             boxShadow: "none"
-                        }
+                        },
                     }),
                     menu: (baseStyles, state) => ({
                         ...baseStyles,
@@ -70,7 +67,7 @@ const TagInput = (props) => {
                         backgroundColor: "inherit",
                         borderRadius: "20px",
                         maxHeight: "10rem",
-                        overflow: "scroll"
+                        overflow: "hidden"
                     }),
                     multiValueRemove: (baseStyles, state) => ({
                         ...baseStyles,
