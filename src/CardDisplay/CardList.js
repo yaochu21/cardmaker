@@ -26,7 +26,6 @@ const CardList = (props) => {
     /*** Card Handlers ***/
     useEffect(
         () => {
-            console.log("card list use effect")
             let c = allCards.find((card) => card.card_id === editingCardID);
             if (c === undefined) {
                 setIsCardModalOpen(false);
@@ -35,17 +34,6 @@ const CardList = (props) => {
             }
         },[allCards]
     )
-    console.log("isCardModalOpen:"+isCardModalOpen)
-    
-    // let c = allCards.find((card) => card.card_id === editingCardID);
-    // if (c === undefined) {
-    //     setIsCardModalOpen(false);
-    //     setEditingCardID(-1);
-    //     setSelectedCards([]);
-    // }
-    // let modalVisibleControl = !(c === undefined);
-
-    console.log("rerendered");
 
     const cardSelectHander = (card, shift, hack = false) => {
         setSelectedCards((prevState) => {

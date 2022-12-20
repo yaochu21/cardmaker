@@ -11,7 +11,8 @@ const PropertyInputDisplay = (props) => {
         MenuList: () => null,
         Input: () => null,
       }}
-      defaultValue={props.sampleDisplays}
+      value={props.sampleDisplays}
+      onChange={props.changeProps}
       placeholder="properties..."
       isMulti
       isClearable

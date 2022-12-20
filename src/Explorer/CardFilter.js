@@ -89,8 +89,6 @@ const CardFilter = (props) => {
   };
 
   const updateFilter = (newFilter, deck = null) => {
-    console.log("update filter called");
-    console.log(newFilter);
     let newVisibleDeck;
     if (deck != null) {
       newVisibleDeck = applyFilter(newFilter, deck);
@@ -143,8 +141,6 @@ const CardFilter = (props) => {
         );
       });
     }
-
-    console.log(newDeck);
     return newDeck;
   };
 

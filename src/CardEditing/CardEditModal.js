@@ -30,6 +30,7 @@ const CardEditModal = (props) => {
 
   const dispatch = useDispatch();
   const allTags = useSelector((state) => state.deckData.existingTags);
+  const allPropKeys = useSelector((state) => state.deckData.existingProperties);
   const allCards = useSelector((state) => state.deckData.deck);
 
   const placeholder = {
@@ -50,6 +51,14 @@ const CardEditModal = (props) => {
   const [cardTags, setCardTags] = useState(
     myCard.tags.map((tag) => {
       return { label: tag, value: tag };
+    })
+  );
+  const [cardProps, setCardProps] = useState(
+    myCard.properties.map((keyVal) => {
+      return {
+        label: `${keyVal.label}:${keyVal.value.toString()}`,
+        value: keyVal.label,
+      };
     })
   );
   const [imageURL, setImageURL] = useState(myCard.image);
@@ -155,12 +164,17 @@ const CardEditModal = (props) => {
       tags: cardTags.map((tagObject) => {
         return tagObject.label;
       }),
+      properties: cardProps.map((propObject) => {
+        let value = +propObject.label.split(':')[1];
+        return {label:propObject.value,value:value};
+      })
     };
     newDeck.push(newCard);
     newDeck.sort((a, b) => a.card_id - b.card_id);
 
     dispatch(setDeck(newDeck));
     updateTagList(newCard);
+    updatePropList(newCard);
   };
 
   const saveFileHandler = (event) => {
@@ -191,6 +205,23 @@ const CardEditModal = (props) => {
       dispatch(setExistingTags(allTags.concat(newEntries)));
     }
   };
+
+  const updatePropList = (card) => {
+    let updatedPropKeys = card.properties.map((propObject) => propObject.label);
+    let newEntries = [];
+
+    for (let i = 0; i < updatedPropKeys.length; i++) {
+      if (allPropKeys.indexOf(updatedPropKeys[i]) > -1) {
+        continue;
+      } else {
+        newEntries.push(updatedPropKeys[i]);
+      }
+    }
+    if (newEntries.length > 0) {
+      dispatch(setExistingTags(allPropKeys.concat(newEntries)));
+    }
+
+  }
 
   /*** Closing Control ***/
 
@@ -241,7 +272,10 @@ const CardEditModal = (props) => {
                 <ModalLabel>Properties</ModalLabel>{" "}
               </div>
 
-              <PropertyInput />
+              <PropertyInput
+                currProperties={cardProps}
+                setProperties={setCardProps}
+              />
             </ModalCardContainer>
             <ModalCardContainer color={card.color}>
               <ModalHeader>
