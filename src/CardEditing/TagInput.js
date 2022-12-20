@@ -6,17 +6,17 @@ const TagInput = (props) => {
     };
 
     return (
-        <div style={{marginTop:"10px"}}>
+        <div style={{marginTop:"7px",width:"90%"}}>
             <CreatableSelect
                 components={{
                     DropdownIndicator: () => null,
                     IndicatorSeparator: () => null,
                     ClearIndicator: () => null,
                 }}
-                defaultValue={props.currTags}
+                defaultValue={props.currValues}
                 placeholder="tags..."
-                options={props.allTags.map((tag) => {return {label:tag,value:tag}})}
-                onChange={props.setTags}
+                options={props.allValues.map((tag) => {return {label:tag,value:tag}})}
+                onChange={props.setValues}
                 isMulti
                 isClearable
                 createOptionPosition={"first"}

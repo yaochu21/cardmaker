@@ -11,8 +11,8 @@ import {
 import {
   ModalContainer,
   ModalCardContainer,
-  ModalLabel,
   ModalHeader,
+  ModalLabel,
   ModalButton,
   ModalBody,
   ModalInput,
@@ -20,10 +20,11 @@ import {
   ModalInputButtonContainer,
 } from "./CardEditModalStyles";
 import TagInput from "./TagInput";
+import PropertyInput from "./PropertyInput";
 import { setDeck, setExistingTags } from "../Store/deckDataSlice";
 
 const CardEditModal = (props) => {
-  console.log("edit modal rerendered")
+  console.log("edit modal rerendered");
 
   const [dragDisabled, setDragDisabled] = useState(false);
 
@@ -39,7 +40,7 @@ const CardEditModal = (props) => {
     properties: {},
     image: null,
     color: { r: 233, g: 233, b: 233, a: 1 },
-  }
+  };
   let myCard = allCards.find((card) => card.card_id === props.card_id);
   if (myCard === undefined) {
     myCard = placeholder;
@@ -156,7 +157,7 @@ const CardEditModal = (props) => {
       }),
     };
     newDeck.push(newCard);
-    newDeck.sort((a,b) => (a.card_id - b.card_id));
+    newDeck.sort((a, b) => a.card_id - b.card_id);
 
     dispatch(setDeck(newDeck));
     updateTagList(newCard);
@@ -211,12 +212,36 @@ const CardEditModal = (props) => {
                 borderStyle: "dashed",
               }}
             >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "90%",
+                  justifyContent: "left",
+                  marginTop: "10px",
+                }}
+              >
+                <ModalLabel>Tags</ModalLabel>{" "}
+              </div>
               <TagInput
                 tagColor={card.color}
-                currTags={cardTags}
-                allTags={allTags}
-                setTags={setCardTags}
+                currValues={cardTags}
+                allValues={allTags}
+                setValues={setCardTags}
               />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "90%",
+                  justifyContent: "left",
+                  marginTop: "10px",
+                }}
+              >
+                <ModalLabel>Properties</ModalLabel>{" "}
+              </div>
+
+              <PropertyInput />
             </ModalCardContainer>
             <ModalCardContainer color={card.color}>
               <ModalHeader>

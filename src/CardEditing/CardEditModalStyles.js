@@ -31,7 +31,7 @@ const ModalCardContainer = styled.div(
 );
 
 const ModalLabel = styled.div`
-    font-size: 0.8rem;
+    font-size: 12px;
     font-family: "Open-Sans";
 `;
 
