@@ -18,7 +18,7 @@ Click 'Download Deck' and unzip.
 
 ### Loading:
 
-Unzip the downloaded project folder. Click 'LoadDeckJson', and select the json file. Click 'LoadDeckThumbnails' and select the 'art' folder.
+Unzip the downloaded project folder. Click 'LoadDeckJson', and upload the json file to load card ata. Zip the 'art' folder contained in the downloaded project folder with any zipping tool of your choice into a zip file. Click 'LoadDeckThumbnails' and upload the file to load thumbnails for a deck. (Images are matched to cards by imageName-cardName).
 
 ### Planned Features:
 
